@@ -12,7 +12,7 @@
     <style>
         * { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
         body {
-            background: radial-gradient(circle at 10% 20%, #0a0f1e 0%, #030712 100%);
+            background: radial-gradient(circle at 10% 20%, #0f172a 0%, #020617 100%);
             font-family: 'Cairo', 'Inter', system-ui, sans-serif;
             min-height: 100vh;
             display: flex;
@@ -20,9 +20,9 @@
         }
         #app-root { flex: 1; }
         
-        /* أنيميشنات عامة */
+        /* أنيميشنات محسنة */
         @keyframes float { 0%,100%{transform:translateY(0px)}50%{transform:translateY(-10px)} }
-        @keyframes glowPulse { 0%{text-shadow:0 0 5px rgba(79,70,229,0.3)}100%{text-shadow:0 0 20px rgba(79,70,229,0.8)} }
+        @keyframes glowPulse { 0%{text-shadow:0 0 5px rgba(139,92,246,0.5)}100%{text-shadow:0 0 20px rgba(139,92,246,0.9)} }
         @keyframes slideUpFade { from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)} }
         @keyframes scaleIn { from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)} }
         @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
@@ -35,46 +35,60 @@
         .animate-slide-up { animation: slideUpFade 0.6s ease-out forwards; }
         .animate-scale-in { animation: scaleIn 0.4s ease-out forwards; }
         
-        .glass-card { background: rgba(15,25,45,0.65); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.75rem; transition: all 0.3s ease; }
-        .glass-card:hover { border-color: rgba(79,70,229,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
+        .glass-card { background: rgba(15,25,45,0.7); backdrop-filter: blur(12px); border: 1px solid rgba(139,92,246,0.3); border-radius: 1.75rem; transition: all 0.3s ease; }
+        .glass-card:hover { border-color: rgba(139,92,246,0.6); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #1e293b; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #4f46e5, #7c3aed); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #a855f7, #7c3aed); border-radius: 10px; }
         
-        /* بطاقات الإحصائيات */
+        /* بطاقات إحصائيات بألوان جذابة */
         .stat-card {
             backdrop-filter: blur(8px);
             border-radius: 1.75rem;
-            padding: 1.8rem 1.2rem;
+            padding: 1.5rem 1rem;
             transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.12);
-            box-shadow: 0 12px 25px -12px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 12px 25px -12px rgba(0,0,0,0.5);
             position: relative;
             overflow: hidden;
         }
-        .stat-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 25px 35px -15px rgba(0,0,0,0.5); animation: cardPop 0.3s ease; }
-        .stat-icon { font-size: 2.8rem; margin-bottom: 0.8rem; display: inline-block; }
-        .stat-number { font-family: monospace; font-size: 2.8rem; font-weight: 900; line-height: 1.2; margin: 0.25rem 0; }
-        .stat-label { font-size: 1rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 0.3rem; flex-wrap: wrap; }
-        @media (max-width:768px){ .stat-card{padding:1.2rem 0.8rem} .stat-icon{font-size:2rem} .stat-number{font-size:2rem} .stat-label{font-size:0.8rem} }
+        .stat-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 25px 35px -15px rgba(0,0,0,0.6); animation: cardPop 0.3s ease; }
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.6s;
+            pointer-events: none;
+        }
+        .stat-card:hover::after { opacity: 1; }
+        .stat-icon { font-size: 2.5rem; margin-bottom: 0.5rem; display: inline-block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); }
+        .stat-number { font-family: monospace; font-size: 2.5rem; font-weight: 900; line-height: 1.2; margin: 0.2rem 0; letter-spacing: 1px; }
+        .stat-label { font-size: 0.9rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 0.3rem; flex-wrap: wrap; }
+        @media (max-width:768px){ .stat-card{padding:1rem 0.5rem} .stat-icon{font-size:1.8rem} .stat-number{font-size:1.8rem} .stat-label{font-size:0.75rem} }
         
-        .stat-card:nth-child(1) { background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(37,99,235,0.05)); border-left: 3px solid #3b82f6; }
-        .stat-card:nth-child(1) .stat-number { color: #60a5fa; }
-        .stat-card:nth-child(2) { background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(245,158,11,0.05)); border-left: 3px solid #f59e0b; }
-        .stat-card:nth-child(2) .stat-number { color: #fbbf24; }
-        .stat-card:nth-child(3) { background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(16,185,129,0.05)); border-left: 3px solid #10b981; }
-        .stat-card:nth-child(3) .stat-number { color: #34d399; }
-        .stat-card:nth-child(4) { background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(139,92,246,0.05)); border-left: 3px solid #8b5cf6; }
-        .stat-card:nth-child(4) .stat-number { color: #c084fc; }
+        .stat-card:nth-child(1) { background: linear-gradient(135deg, rgba(59,130,246,0.25), rgba(37,99,235,0.1)); border-left: 3px solid #3b82f6; }
+        .stat-card:nth-child(1) .stat-number { color: #60a5fa; text-shadow: 0 0 8px rgba(96,165,250,0.5); }
+        .stat-card:nth-child(2) { background: linear-gradient(135deg, rgba(245,158,11,0.25), rgba(245,158,11,0.1)); border-left: 3px solid #f59e0b; }
+        .stat-card:nth-child(2) .stat-number { color: #fbbf24; text-shadow: 0 0 8px rgba(251,191,36,0.5); }
+        .stat-card:nth-child(3) { background: linear-gradient(135deg, rgba(16,185,129,0.25), rgba(16,185,129,0.1)); border-left: 3px solid #10b981; }
+        .stat-card:nth-child(3) .stat-number { color: #34d399; text-shadow: 0 0 8px rgba(52,211,153,0.5); }
+        .stat-card:nth-child(4) { background: linear-gradient(135deg, rgba(139,92,246,0.25), rgba(139,92,246,0.1)); border-left: 3px solid #c084fc; }
+        .stat-card:nth-child(4) .stat-number { color: #c084fc; text-shadow: 0 0 8px rgba(192,132,252,0.5); }
         
-        .badge { display: inline-flex; align-items: center; gap: 0.2rem; padding: 0.2rem 0.5rem; border-radius: 9999px; font-size: 0.65rem; font-weight: 600; backdrop-filter: blur(4px); white-space: nowrap; }
-        .status-active { background: rgba(16,185,129,0.2); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.5); }
-        .status-expiring { background: rgba(245,158,11,0.2); color: #fcd34d; border: 1px solid rgba(245,158,11,0.5); animation: borderPulse 1.5s infinite; }
-        .status-expired { background: rgba(239,68,68,0.2); color: #fecaca; border: 1px solid rgba(239,68,68,0.5); }
-        @keyframes borderPulse { 0%{border-color:rgba(79,70,229,0.3);box-shadow:0 0 0 0 rgba(79,70,229,0.2)}50%{border-color:rgba(79,70,229,0.8);box-shadow:0 0 0 6px rgba(79,70,229,0.1)}100%{border-color:rgba(79,70,229,0.3);box-shadow:0 0 0 0 rgba(79,70,229,0)} }
+        /* بادجات محسنة */
+        .badge { display: inline-flex; align-items: center; gap: 0.2rem; padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.65rem; font-weight: 600; backdrop-filter: blur(4px); white-space: nowrap; }
+        .status-active { background: rgba(16,185,129,0.25); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.6); }
+        .status-expiring { background: rgba(245,158,11,0.25); color: #fcd34d; border: 1px solid rgba(245,158,11,0.6); animation: borderPulse 1.5s infinite; }
+        .status-expired { background: rgba(239,68,68,0.25); color: #fecaca; border: 1px solid rgba(239,68,68,0.6); }
+        @keyframes borderPulse { 0%{border-color:rgba(245,158,11,0.4);box-shadow:0 0 0 0 rgba(245,158,11,0.2)}50%{border-color:rgba(245,158,11,0.9);box-shadow:0 0 0 5px rgba(245,158,11,0.15)}100%{border-color:rgba(245,158,11,0.4);box-shadow:0 0 0 0 rgba(245,158,11,0)} }
         
-        /* جدول العملاء - تصميم مضغوط مع أنيميشن */
+        /* جدول العملاء المحسن */
         .client-table-wrapper {
             overflow-x: auto;
             border-radius: 1rem;
@@ -82,96 +96,72 @@
             -webkit-overflow-scrolling: touch;
         }
         .client-table {
-            min-width: 1000px;
+            min-width: 1200px;
             border-collapse: collapse;
             width: 100%;
             font-size: 0.75rem;
         }
         .client-table th {
-            background: linear-gradient(135deg, rgba(79,70,229,0.5), rgba(67,56,202,0.4));
+            background: linear-gradient(135deg, rgba(139,92,246,0.6), rgba(79,70,229,0.5));
             backdrop-filter: blur(4px);
-            font-weight: 700;
-            padding: 0.4rem 0.3rem;
+            font-weight: 800;
+            padding: 0.6rem 0.4rem;
             font-size: 0.7rem;
             white-space: nowrap;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            color: #f3e8ff;
         }
         .client-table td {
-            background: rgba(15,25,45,0.5);
+            background: rgba(15,25,45,0.6);
             transition: all 0.2s;
-            padding: 0.3rem 0.3rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 0.4rem 0.3rem;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
             white-space: nowrap;
         }
-        .client-table td:nth-child(2),
-        .client-table td:nth-child(3),
-        .client-table td:nth-child(5) {
+        .client-table tbody tr:nth-child(even) td {
+            background: rgba(20,30,50,0.6);
+        }
+        .client-table tbody tr:hover td {
+            background: rgba(139,92,246,0.25);
+            transform: scale(1.002);
+        }
+        /* الأعمدة الطويلة */
+        .client-table td:nth-child(2), .client-table td:nth-child(3), .client-table td:nth-child(5),
+        .client-table td:nth-child(6), .client-table td:nth-child(7) {
             white-space: normal;
             word-break: break-word;
             max-width: 150px;
             min-width: 100px;
         }
-        .client-table tbody tr {
-            animation: rowFadeIn 0.3s ease-out forwards;
-        }
-        .client-table tbody tr:hover td {
-            background: rgba(79,70,229,0.2);
-            transform: scale(1.002);
-        }
         .action-buttons {
             display: flex;
-            gap: 0.2rem;
+            gap: 0.3rem;
             justify-content: center;
             flex-wrap: nowrap;
         }
         .action-btn {
-            background: none;
+            background: rgba(255,255,255,0.05);
             border: none;
             cursor: pointer;
             transition: all 0.2s;
-            padding: 0.2rem;
-            border-radius: 0.4rem;
+            padding: 0.3rem;
+            border-radius: 0.5rem;
+            color: #cbd5e1;
         }
-        .action-btn i {
-            font-size: 0.8rem;
-        }
-        .action-btn:hover { transform: scale(1.1); background: rgba(255,255,255,0.1); animation: shake 0.2s ease-in-out; }
+        .action-btn i { font-size: 0.8rem; }
+        .action-btn:hover { transform: scale(1.1); background: rgba(139,92,246,0.5); color: white; animation: shake 0.2s ease; }
         @media (max-width: 768px) {
-            .client-table { font-size: 0.7rem; min-width: 900px; }
-            .client-table th, .client-table td { padding: 0.2rem 0.25rem; }
-            .badge { font-size: 0.55rem; padding: 0.1rem 0.3rem; }
+            .client-table { font-size: 0.7rem; min-width: 1100px; }
+            .client-table th, .client-table td { padding: 0.25rem 0.2rem; }
+            .badge { font-size: 0.55rem; padding: 0.1rem 0.4rem; }
             .action-btn i { font-size: 0.7rem; }
         }
         
         body.lang-en, body.lang-fr { direction: ltr; text-align: left; }
-        input, select, textarea { transition: all 0.2s ease; background-color: rgba(31,41,55,0.6); border: 1px solid rgba(75,85,99,0.6); font-size: 0.9rem; }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: #8b5cf6; box-shadow: 0 0 0 3px rgba(139,92,246,0.2); transform: scale(1.01); background-color: rgba(31,41,55,0.8); }
-        .footer { margin-top: 2rem; text-align: center; padding: 1.2rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
-        .profile-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(79,70,229,0.5); transition: all 0.3s; }
-        .profile-avatar:hover { transform: scale(1.05); border-color: #4f46e5; }
-        .notification-card { background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(79,70,229,0.1)); border-right: 4px solid #8b5cf6; backdrop-filter: blur(8px); transition: all 0.3s ease; }
-        .notification-card:hover { transform: translateX(-4px); background: linear-gradient(135deg, rgba(139,92,246,0.35), rgba(79,70,229,0.2)); }
-        .copy-phone-btn, .copy-email-btn, .copy-all-btn { background: linear-gradient(135deg, #3b82f6, #2563eb); transition: all 0.2s; color: white; border: none; }
-        .currency-btn.active { background: rgba(79,70,229,0.4); border-color: #4f46e5; }
-        .vip-btn {
-            background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
-            background-size: 200% auto;
-            animation: shimmer 2s linear infinite;
-            color: white;
-            font-weight: 800;
-            padding: 0.5rem 1.2rem;
-            border-radius: 2rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-            box-shadow: 0 0 15px rgba(245,158,11,0.5);
-            cursor: pointer;
-        }
-        .vip-btn:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(245,158,11,0.8); }
-        @keyframes shimmer { 0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%} }
+        input, select, textarea { transition: all 0.2s ease; background-color: rgba(31,41,55,0.8); border: 1px solid rgba(139,92,246,0.4); border-radius: 1rem; color: white; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #c084fc; box-shadow: 0 0 0 3px rgba(192,132,252,0.3); background-color: rgba(31,41,55,0.95); }
         
-        /* مودال إضافة عميل (النمط الأصلي) */
+        /* تحسينات المودال */
         .client-modal-glass {
             position: fixed;
             inset: 0;
@@ -184,306 +174,93 @@
             padding: 1rem;
             transition: opacity 0.3s ease, visibility 0.3s;
         }
-        .client-modal-glass.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
+        .client-modal-glass.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         .client-modal-content {
-            background: linear-gradient(145deg, rgba(15,25,45,0.98), rgba(10,18,30,0.98));
-            border: 1px solid rgba(139,92,246,0.4);
+            background: linear-gradient(145deg, #0f172a, #030712);
+            border: 1px solid rgba(139,92,246,0.5);
             border-radius: 2rem;
-            box-shadow: 0 30px 50px -20px rgba(0,0,0,0.8), 0 0 0 1px rgba(139,92,246,0.2);
+            box-shadow: 0 30px 50px -20px black;
             max-width: 950px;
             width: 100%;
             padding: 2rem;
-            transform: translateY(0);
-            animation: modalSlideIn 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            animation: modalSlideIn 0.5s ease;
         }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.8rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 1rem;
-        }
-        .modal-header h3 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, #c084fc);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-        .close-modal-btn {
-            background: rgba(255,255,255,0.05);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #cbd5e1;
-            font-size: 1.4rem;
-        }
-        .close-modal-btn:hover {
-            background: rgba(239,68,68,0.2);
-            color: #f87171;
-            transform: rotate(90deg);
-        }
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.2rem;
-        }
-        .modal-field {
-            position: relative;
-            transition: all 0.2s;
-        }
-        .modal-field label {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #a78bfa;
-            margin-bottom: 0.3rem;
-            letter-spacing: 0.5px;
-        }
-        .modal-field input, .modal-field select, .modal-field textarea {
-            width: 100%;
-            background: rgba(31,41,55,0.8);
-            border: 1px solid rgba(75,85,99,0.5);
-            border-radius: 1rem;
-            padding: 0.7rem 1rem 0.7rem 2.2rem;
-            font-size: 0.95rem;
-            color: white;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-        .modal-field input:focus, .modal-field select:focus, .modal-field textarea:focus {
-            border-color: #8b5cf6;
-            box-shadow: 0 0 0 3px rgba(139,92,246,0.2);
-            background: rgba(31,41,55,0.95);
-            transform: scale(1.01);
-        }
-        .modal-field i {
-            position: absolute;
-            right: 0.8rem;
-            top: 2.2rem;
-            color: #a78bfa;
-            font-size: 1rem;
-            transition: all 0.2s;
-            pointer-events: none;
-        }
-        .modal-field:hover i {
-            color: #c084fc;
-            transform: scale(1.1);
-        }
-        .full-width {
-            grid-column: span 2;
-        }
-        .modal-actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        .btn-save, .btn-cancel {
-            flex: 1;
-            padding: 0.8rem;
-            border-radius: 1rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            transition: all 0.2s;
-            cursor: pointer;
-            border: none;
-            font-size: 1rem;
-        }
-        .btn-save {
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
-            color: white;
-            box-shadow: 0 4px 12px rgba(79,70,229,0.3);
-        }
-        .btn-save:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 20px rgba(79,70,229,0.4);
-        }
-        .btn-cancel {
-            background: rgba(255,255,255,0.1);
-            color: #e2e8f0;
-        }
-        .btn-cancel:hover {
-            background: rgba(255,255,255,0.2);
-            transform: scale(1.02);
-        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.8rem; }
+        .modal-header h3 { font-size: 1.6rem; font-weight: 800; background: linear-gradient(135deg, #fff, #c084fc); background-clip: text; -webkit-background-clip: text; color: transparent; display: flex; align-items: center; gap: 0.5rem; }
+        .close-modal-btn { background: rgba(255,255,255,0.1); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #cbd5e1; font-size: 1.2rem; transition: all 0.2s; }
+        .close-modal-btn:hover { background: rgba(239,68,68,0.3); color: #f87171; transform: rotate(90deg); }
+        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .modal-field { position: relative; }
+        .modal-field label { display: block; font-size: 0.75rem; font-weight: 600; color: #c084fc; margin-bottom: 0.2rem; }
+        .modal-field input, .modal-field select, .modal-field textarea { width: 100%; background: rgba(31,41,55,0.8); border: 1px solid rgba(139,92,246,0.4); border-radius: 1rem; padding: 0.6rem 1rem 0.6rem 2rem; font-size: 0.85rem; color: white; }
+        .modal-field i { position: absolute; right: 0.8rem; top: 1.9rem; color: #c084fc; font-size: 0.9rem; pointer-events: none; }
+        .full-width { grid-column: span 2; }
+        .modal-actions { display: flex; gap: 1rem; margin-top: 1.5rem; }
+        .btn-save, .btn-cancel { flex: 1; padding: 0.7rem; border-radius: 1rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer; border: none; font-size: 0.9rem; }
+        .btn-save { background: linear-gradient(135deg, #8b5cf6, #4f46e5); color: white; box-shadow: 0 4px 12px rgba(79,70,229,0.4); }
+        .btn-save:hover { transform: scale(1.02); box-shadow: 0 8px 20px rgba(79,70,229,0.6); }
+        .btn-cancel { background: rgba(255,255,255,0.1); color: #e2e8f0; }
+        .btn-cancel:hover { background: rgba(255,255,255,0.2); transform: scale(1.02); }
         @media (max-width: 768px) {
-            .form-grid { grid-template-columns: 1fr; gap: 1rem; }
+            .form-grid { grid-template-columns: 1fr; }
             .full-width { grid-column: span 1; }
-            .client-modal-content { padding: 1.5rem; max-width: 95%; }
-            .modal-header h3 { font-size: 1.4rem; }
-            .modal-field i { top: 2rem; }
+            .client-modal-content { padding: 1.2rem; max-width: 95%; }
+            .modal-header h3 { font-size: 1.3rem; }
         }
         
-        /* شعار وتواصل */
-        .logo-wrapper { background: linear-gradient(135deg, rgba(79,70,229,0.15), rgba(139,92,246,0.05)); backdrop-filter: blur(8px); border-radius: 2rem; padding: 0.5rem 1rem 0.5rem 1.2rem; border: 1px solid rgba(139,92,246,0.3); transition: all 0.4s ease; }
-        .logo-wrapper:hover { transform: scale(1.02); border-color: rgba(139,92,246,0.6); box-shadow: 0 8px 25px rgba(139,92,246,0.2); }
-        .crown-icon { filter: drop-shadow(0 0 8px rgba(79,70,229,0.6)); transition: all 0.3s; }
-        .logo-wrapper:hover .crown-icon { filter: drop-shadow(0 0 15px rgba(139,92,246,0.9)); transform: scale(1.05); }
+        /* باقات الاشتراك المحسنة */
+        .subscription-fullscreen { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1rem; animation: fadeInScale 0.3s; }
+        .subscription-container { max-width: 1000px; width: 100%; background: linear-gradient(145deg, #0f172a, #020617); border-radius: 2rem; padding: 1.5rem; border: 1px solid rgba(139,92,246,0.6); box-shadow: 0 30px 50px -20px black; }
+        .plans-row { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-bottom: 1.5rem; }
+        .plan-card { flex: 1; min-width: 180px; background: rgba(255,255,255,0.05); border-radius: 1.5rem; padding: 1rem; text-align: center; cursor: pointer; transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(4px); }
+        .plan-card:hover { transform: translateY(-8px) scale(1.02); border-color: #f59e0b; box-shadow: 0 20px 30px -12px rgba(0,0,0,0.5); }
+        .plan-card.selected { border-color: #f59e0b; background: rgba(245,158,11,0.2); transform: translateY(-5px); box-shadow: 0 0 20px rgba(245,158,11,0.3); }
+        .plan-card i { font-size: 2.5rem; margin-bottom: 0.5rem; display: inline-block; }
+        .plan-card[data-plan="monthly"] i { color: #3b82f6; }
+        .plan-card[data-plan="yearly"] i { color: #10b981; }
+        .plan-card[data-plan="lifetime"] i { color: #f59e0b; }
+        .plan-card h3 { font-size: 1.3rem; font-weight: 800; margin: 0.3rem 0; background: linear-gradient(135deg, #fff, #cbd5e1); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .plan-price { font-size: 1.5rem; font-weight: 900; margin: 0.3rem 0; }
+        .plan-card[data-plan="monthly"] .plan-price { color: #60a5fa; }
+        .plan-card[data-plan="yearly"] .plan-price { color: #34d399; }
+        .plan-card[data-plan="lifetime"] .plan-price { color: #fbbf24; }
+        .plan-features { font-size: 0.7rem; color: #cbd5e1; margin-top: 0.5rem; line-height: 1.4; text-align: center; }
+        .payment-methods-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.8rem; max-width: 500px; margin: 0 auto; }
+        .payment-method-item { display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: rgba(255,255,255,0.08); padding: 0.5rem; border-radius: 1rem; color: #e2e8f0; cursor: default; transition: 0.2s; }
+        .payment-method-item:hover { background: rgba(139,92,246,0.3); transform: translateY(-3px); }
+        .payment-method-item i { font-size: 1.2rem; color: #fbbf24; }
+        .contact-btn { background: linear-gradient(135deg, #25D366, #128C7E); color: white; padding: 0.6rem 1.5rem; border-radius: 2rem; font-weight: bold; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; transition: 0.3s; border: none; }
+        .contact-btn:hover { transform: scale(1.05); box-shadow: 0 8px 20px #25D366; }
+        
+        /* باقي الأنماط */
+        .logo-wrapper { background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(79,70,229,0.05)); backdrop-filter: blur(8px); border-radius: 2rem; padding: 0.5rem 1rem 0.5rem 1.2rem; border: 1px solid rgba(139,92,246,0.4); transition: all 0.4s ease; }
+        .logo-wrapper:hover { transform: scale(1.02); border-color: #c084fc; box-shadow: 0 8px 25px rgba(139,92,246,0.3); }
         .brand-text { background: linear-gradient(135deg, #fff, #c084fc, #a855f7); background-clip: text; -webkit-background-clip: text; color: transparent; font-weight: 900; }
-        .contact-rectangle { background: linear-gradient(135deg, #1e293b, #0f172a, #4f46e5); background-size: 200% 200%; animation: shimmerContact 3s ease infinite; border-radius: 2rem; padding: 0.6rem 1.8rem; display: inline-flex; align-items: center; gap: 0.8rem; font-weight: 800; font-size: 1rem; cursor: pointer; transition: all 0.3s; border: 1px solid rgba(139,92,246,0.6); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .contact-rectangle:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(79,70,229,0.5); border-color: #c084fc; }
+        .contact-rectangle { background: linear-gradient(135deg, #4f46e5, #7c3aed, #c084fc); background-size: 200% 200%; animation: shimmerContact 3s ease infinite; border-radius: 2rem; padding: 0.6rem 1.8rem; display: inline-flex; align-items: center; gap: 0.8rem; font-weight: 800; font-size: 1rem; cursor: pointer; transition: all 0.3s; border: none; box-shadow: 0 4px 15px rgba(79,70,229,0.5); }
+        .contact-rectangle:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(139,92,246,0.7); }
         @keyframes shimmerContact { 0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%} }
         .rating-star { cursor: pointer; transition: all 0.2s; color: #4b5563; }
-        .rating-star:hover, .rating-star.active { color: #fbbf24; transform: scale(1.2); text-shadow: 0 0 5px #f59e0b; }
-        
-        /* أنماط المصادقة */
-        .auth-section-new {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 80vh;
-            padding: 1rem;
-        }
-        .auth-card {
-            background: rgba(15,25,45,0.85);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 2rem;
-            width: 100%;
-            max-width: 480px;
-            padding: 2rem 1.8rem;
-            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.4);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .auth-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 30px 55px -15px rgba(0,0,0,0.5);
-            border-color: rgba(139,92,246,0.5);
-        }
-        .pro-badge {
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-        .pro-badge .pro-text {
-            font-size: 2rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, #fff, #eab308);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-        .auth-tabs {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-bottom: 1.8rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 0.75rem;
-        }
-        .auth-tab {
-            background: transparent;
-            border: none;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #94a3b8;
-            cursor: pointer;
-            transition: all 0.2s;
-            padding: 0.25rem 1rem;
-            border-radius: 2rem;
-        }
-        .auth-tab.active {
-            color: white;
-            background: rgba(139,92,246,0.2);
-            box-shadow: 0 0 0 1px rgba(139,92,246,0.5);
-        }
-        .input-group {
-            margin-bottom: 1.2rem;
-        }
-        .input-group label {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #cbd5e1;
-            margin-bottom: 0.4rem;
-        }
-        .input-group input {
-            width: 100%;
-            background: rgba(31,41,55,0.7);
-            border: 1px solid rgba(75,85,99,0.6);
-            border-radius: 1rem;
-            padding: 0.7rem 1rem;
-            font-size: 0.9rem;
-            color: white;
-        }
-        .verify-section {
-            margin: 1.2rem 0;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            background: rgba(0,0,0,0.3);
-            padding: 0.6rem 1rem;
-            border-radius: 1rem;
-        }
-        .btn-signin {
-            width: 100%;
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
-            color: white;
-            font-weight: bold;
-            padding: 0.75rem;
-            border-radius: 2rem;
-            border: none;
-            cursor: pointer;
-            margin-top: 0.5rem;
-        }
-        .register-link {
-            margin-top: 1rem;
-            text-align: center;
-            font-size: 0.8rem;
-            color: #94a3b8;
-        }
-        .register-link span {
-            color: #c084fc;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-        .forgot-link {
-            text-align: center;
-            margin-top: 0.5rem;
-        }
-        .forgot-link a {
-            color: #a78bfa;
-            font-size: 0.75rem;
-            cursor: pointer;
-        }
-        
-        /* أنماط الاشتراك VIP */
-        .subscription-fullscreen { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(20px); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1rem; animation: fadeInScale 0.3s; }
-        .subscription-container { max-width: 900px; width: 100%; background: linear-gradient(145deg, #0f172a, #020617); border-radius: 2rem; padding: 1.2rem; border: 1px solid rgba(139,92,246,0.4); }
-        .plans-row { display: flex; flex-wrap: nowrap; gap: 0.8rem; justify-content: center; margin-bottom: 1.5rem; overflow-x: auto; }
-        .plan-card { flex: 1; min-width: 140px; background: rgba(255,255,255,0.03); border-radius: 1rem; padding: 0.7rem 0.5rem; text-align: center; cursor: pointer; transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.1); }
-        .plan-card.selected { border-color: #f59e0b; background: rgba(245,158,11,0.15); transform: translateY(-2px); }
-        .plan-card i { font-size: 1.6rem; }
-        .plan-price { font-size: 1.2rem; font-weight: 900; }
-        .payment-methods-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; max-width: 400px; margin: 0 auto; }
-        .payment-method-item { display: flex; align-items: center; justify-content: center; gap: 0.6rem; background: rgba(255,255,255,0.05); padding: 0.6rem; border-radius: 1rem; color: #e2e8f0; cursor: default; }
-        .contact-btn { background: linear-gradient(135deg, #25D366, #128C7E); color: white; padding: 0.5rem 1.5rem; border-radius: 2rem; font-weight: bold; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; }
-        .contact-modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); z-index: 1100; display: flex; align-items: center; justify-content: center; }
-        .contact-modal-content { background: linear-gradient(145deg, #111827, #030712); border-radius: 2rem; padding: 1.5rem; text-align: center; border: 1px solid rgba(139,92,246,0.5); min-width: 280px; }
-        .contact-info-item { margin: 0.8rem 0; display: flex; align-items: center; justify-content: center; gap: 0.8rem; background: rgba(255,255,255,0.05); padding: 0.6rem; border-radius: 1.2rem; }
-        .code-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 2000; }
-        .code-modal-content { background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 2rem; padding: 2rem; text-align: center; max-width: 400px; width: 90%; border: 1px solid #8b5cf6; }
-        .code-modal-content input { background: #0f172a; border: 1px solid #4f46e5; padding: 0.6rem; border-radius: 1rem; color: white; font-size: 1.5rem; text-align: center; letter-spacing: 0.5rem; width: 120px; margin: 1rem auto; display: block; }
+        .rating-star:hover, .rating-star.active { color: #fbbf24; transform: scale(1.2); text-shadow: 0 0 8px #f59e0b; }
+        .vip-btn { background: linear-gradient(135deg, #f59e0b, #d97706, #b45309); background-size: 200% auto; animation: shimmer 2s linear infinite; color: white; font-weight: 800; padding: 0.5rem 1.2rem; border-radius: 2rem; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s; box-shadow: 0 0 15px rgba(245,158,11,0.6); cursor: pointer; }
+        .vip-btn:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(245,158,11,0.9); }
+        @keyframes shimmer { 0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%} }
+        .auth-section-new { display: flex; justify-content: center; align-items: center; min-height: 80vh; padding: 1rem; }
+        .auth-card { background: rgba(15,25,45,0.9); backdrop-filter: blur(16px); border: 1px solid rgba(139,92,246,0.5); border-radius: 2rem; width: 100%; max-width: 480px; padding: 2rem; box-shadow: 0 25px 45px -12px rgba(0,0,0,0.5); transition: transform 0.3s; }
+        .auth-card:hover { transform: translateY(-5px); border-color: #c084fc; }
+        .pro-badge .pro-text { font-size: 2rem; font-weight: 900; background: linear-gradient(135deg, #fff, #fbbf24); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .auth-tab { background: transparent; border: none; font-size: 1rem; font-weight: 600; color: #94a3b8; cursor: pointer; padding: 0.25rem 1rem; border-radius: 2rem; }
+        .auth-tab.active { color: white; background: rgba(139,92,246,0.3); box-shadow: 0 0 0 1px #c084fc; }
+        .btn-signin { background: linear-gradient(135deg, #8b5cf6, #4f46e5); color: white; font-weight: bold; padding: 0.75rem; border-radius: 2rem; border: none; cursor: pointer; margin-top: 0.5rem; transition: 0.2s; }
+        .btn-signin:hover { transform: scale(1.02); box-shadow: 0 8px 20px rgba(79,70,229,0.5); }
+        .footer { margin-top: 2rem; text-align: center; padding: 1rem; border-top: 1px solid rgba(255,255,255,0.1); color: #9ca3af; }
+        .notification-card { background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(79,70,229,0.1)); border-right: 4px solid #c084fc; backdrop-filter: blur(8px); border-radius: 1rem; padding: 0.8rem; }
+        .copy-phone-btn, .copy-email-btn, .copy-all-btn { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border: none; padding: 0.2rem 0.6rem; border-radius: 1rem; font-size: 0.7rem; }
+        .contact-modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(12px); z-index: 1100; display: flex; align-items: center; justify-content: center; }
+        .contact-modal-content { background: linear-gradient(145deg, #111827, #030712); border-radius: 2rem; padding: 1.5rem; text-align: center; border: 1px solid #c084fc; min-width: 280px; }
+        .contact-info-item { margin: 0.8rem 0; display: flex; align-items: center; justify-content: center; gap: 0.8rem; background: rgba(255,255,255,0.05); padding: 0.6rem; border-radius: 1rem; }
+        .code-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 2000; }
+        .code-modal-content { background: linear-gradient(145deg, #1e293b, #0f172a); border-radius: 2rem; padding: 2rem; text-align: center; max-width: 400px; width: 90%; border: 1px solid #c084fc; }
+        .code-modal-content input { background: #0f172a; border: 1px solid #c084fc; padding: 0.6rem; border-radius: 1rem; color: white; font-size: 1.5rem; text-align: center; letter-spacing: 0.5rem; width: 120px; margin: 1rem auto; display: block; }
     </style>
 </head>
 <body class="p-4 md:p-6 flex flex-col min-h-screen">
@@ -539,7 +316,7 @@
 
     <!-- لوحة التحكم -->
     <div id="dashboard-section" class="hidden glass-card p-4 md:p-8 animate-scale-in">
-        <div class="flex flex-wrap justify-between items-center border-b border-white/10 pb-4 mb-6"><div class="flex items-center gap-4"><div class="relative"><img id="profile-avatar" class="profile-avatar w-10 h-10 md:w-12 md:h-12" src="https://ui-avatars.com/api/?background=4f46e5&color=fff&bold=true&size=48&name=User"><label for="avatar-upload" class="absolute -bottom-1 -right-1 bg-indigo-600 rounded-full p-1 cursor-pointer hover:bg-indigo-500 transition"><i class="fas fa-camera text-white text-xs"></i><input type="file" id="avatar-upload" accept="image/*" class="hidden"></label></div><div><p class="text-indigo-200 text-xs md:text-sm"><span data-i18n="welcome">👋 مرحباً</span></p><h3 id="dashboard-user-email" class="text-white font-bold text-sm md:text-xl break-all">user@example.com</h3></div></div><button id="logout-btn" class="bg-red-500/80 hover:bg-red-600 text-white px-3 md:px-5 py-2 rounded-full font-semibold shadow-md flex items-center gap-2 text-sm"><i class="fas fa-sign-out-alt"></i> <span data-i18n="logout">🚪 خروج</span></button></div>
+        <div class="flex flex-wrap justify-between items-center border-b border-white/10 pb-4 mb-6"><div class="flex items-center gap-4"><div class="relative"><img id="profile-avatar" class="profile-avatar w-10 h-10 md:w-12 md:h-12" src="https://ui-avatars.com/api/?background=8b5cf6&color=fff&bold=true&size=48&name=User"><label for="avatar-upload" class="absolute -bottom-1 -right-1 bg-indigo-600 rounded-full p-1 cursor-pointer hover:bg-indigo-500 transition"><i class="fas fa-camera text-white text-xs"></i><input type="file" id="avatar-upload" accept="image/*" class="hidden"></label></div><div><p class="text-indigo-200 text-xs md:text-sm"><span data-i18n="welcome">👋 مرحباً</span></p><h3 id="dashboard-user-email" class="text-white font-bold text-sm md:text-xl break-all">user@example.com</h3></div></div><button id="logout-btn" class="bg-red-500/80 hover:bg-red-600 text-white px-3 md:px-5 py-2 rounded-full font-semibold shadow-md flex items-center gap-2 text-sm"><i class="fas fa-sign-out-alt"></i> <span data-i18n="logout">🚪 خروج</span></button></div>
         <div id="notifications-area" class="mb-6 space-y-3"></div>
         <div class="mb-6 flex justify-end gap-3"><button id="open-add-client-modal" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 md:px-6 py-2 rounded-xl shadow-lg flex items-center gap-2 text-sm md:text-base font-semibold transition-all transform hover:scale-105"><i class="fas fa-plus-circle"></i> <span data-i18n="add_new_client">➕ إضافة عميل جديد</span></button><button id="subscription-btn" class="vip-btn"><i class="fas fa-crown"></i> <span data-i18n="subscription">VIP اشتراك</span> ✨</button></div>
         
@@ -552,19 +329,19 @@
         </div>
         
         <div class="flex flex-wrap justify-between items-center gap-3 mb-6"><div class="flex gap-2 flex-wrap items-center"><div class="flex gap-1 bg-white/10 rounded-full p-1 backdrop-blur-sm"><button data-currency="MAD" class="currency-btn px-2 md:px-3 py-1.5 rounded-full text-xs md:text-sm font-medium transition flex items-center gap-1 hover:bg-white/20"><span>🇲🇦</span> درهم</button><button data-currency="USD" class="currency-btn px-2 md:px-3 py-1.5 rounded-full text-xs md:text-sm font-medium transition flex items-center gap-1 hover:bg-white/20"><span>$</span> USD</button><button data-currency="EUR" class="currency-btn px-2 md:px-3 py-1.5 rounded-full text-xs md:text-sm font-medium transition flex items-center gap-1 hover:bg-white/20"><span>€</span> EUR</button></div><button id="export-csv-btn" class="bg-green-600/80 hover:bg-green-600 text-white px-3 py-1.5 rounded-full text-sm flex items-center gap-1"><i class="fas fa-file-csv"></i> CSV</button><button id="export-json-btn" class="bg-blue-600/80 hover:bg-blue-600 text-white px-3 py-1.5 rounded-full text-sm flex items-center gap-1"><i class="fas fa-file-code"></i> JSON</button><button id="import-json-btn" class="bg-purple-600/80 hover:bg-purple-600 text-white px-3 py-1.5 rounded-full text-sm flex items-center gap-1"><i class="fas fa-upload"></i> استيراد</button><input type="file" id="import-file" accept=".json" class="hidden"></div></div>
-        <div class="flex flex-wrap gap-3 mb-6 items-center justify-between"><div class="relative flex-1 min-w-[200px]"><i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i><input type="text" id="search-input" placeholder="🔍 بحث بالاسم، البريد، الهاتف، الخدمة، الدولة..." class="w-full bg-gray-800/80 border border-gray-600 rounded-xl py-2 pr-10 pl-4 text-white focus:border-indigo-400 text-sm"></div></div>
+        <div class="flex flex-wrap gap-3 mb-6 items-center justify-between"><div class="relative flex-1 min-w-[200px]"><i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i><input type="text" id="search-input" placeholder="🔍 بحث بالاسم، البريد، الهاتف، MAC، KEY..." class="w-full bg-gray-800/80 border border-gray-600 rounded-xl py-2 pr-10 pl-4 text-white focus:border-indigo-400 text-sm"></div></div>
         
         <!-- تقييم 5 نجوم -->
         <div class="flex justify-center mb-4"><div class="flex gap-2 items-center bg-white/5 px-4 py-2 rounded-full"><span class="text-gray-300 text-sm" data-i18n="rate_app">قيم التطبيق:</span><div id="rating-stars" class="flex gap-2"><i class="fas fa-star rating-star text-xl" data-value="1"></i><i class="fas fa-star rating-star text-xl" data-value="2"></i><i class="fas fa-star rating-star text-xl" data-value="3"></i><i class="fas fa-star rating-star text-xl" data-value="4"></i><i class="fas fa-star rating-star text-xl" data-value="5"></i></div></div></div>
 
-        <div class="bg-gray-900/50 rounded-2xl p-3 md:p-5 border border-indigo-500/30"><div class="flex items-center gap-2 mb-4"><i class="fas fa-table-list text-indigo-300 text-lg"></i><h2 class="text-lg md:text-xl font-bold text-white"><span data-i18n="clients_list">📋 قائمة العملاء</span> ✨</h2></div><div class="client-table-wrapper"><table class="client-table w-full text-white"><thead class="bg-indigo-900/40 text-indigo-200"><tr><th>#</th><th><span data-i18n="client_name">👤 الاسم</span></th><th><span data-i18n="email">📧 البريد</span></th><th><span data-i18n="phone">📞 الهاتف</span></th><th><span data-i18n="service_type">🛠️ الخدمة</span></th><th><span data-i18n="country">🌍 الدولة</span></th><th><span data-i18n="start_date">📅 البداية</span></th><th><span data-i18n="end_date">⏰ النهاية</span></th><th><span data-i18n="remaining">⏳ المتبقي</span></th><th><span data-i18n="price">💰 الثمن</span></th><th class="text-center"><span data-i18n="actions">⚙️ إجراءات</span></th></tr></thead><tbody id="clients-table-body"><tr><td colspan="11" class="text-center p-4 text-indigo-200"><i class="fas fa-spinner fa-pulse"></i> <span data-i18n="loading">جاري التحميل...</span></td></tr></tbody></table></div><div id="clients-feedback" class="mt-3 text-sm"></div></div>
+        <div class="bg-gray-900/50 rounded-2xl p-3 md:p-5 border border-indigo-500/30"><div class="flex items-center gap-2 mb-4"><i class="fas fa-table-list text-indigo-300 text-lg"></i><h2 class="text-lg md:text-xl font-bold text-white"><span data-i18n="clients_list">📋 قائمة العملاء</span> ✨</h2></div><div class="client-table-wrapper"><table class="client-table w-full text-white"><thead class="bg-indigo-900/40 text-indigo-200"><tr><th>#</th><th><span data-i18n="client_name">👤 الاسم</span></th><th><span data-i18n="email">📧 البريد</span></th><th><span data-i18n="phone">📞 الهاتف</span></th><th><span data-i18n="service_type">🛠️ الخدمة</span></th><th><span data-i18n="country">🌍 الدولة</span></th><th><span data-i18n="app_type">📱 نوع التطبيق</span></th><th>🔑 MAC</th><th>🗝️ KEY</th><th><span data-i18n="start_date">📅 البداية</span></th><th><span data-i18n="end_date">⏰ النهاية</span></th><th><span data-i18n="remaining">⏳ المتبقي</span></th><th><span data-i18n="price">💰 الثمن</span></th><th class="text-center"><span data-i18n="actions">⚙️ إجراءات</span></th></tr></thead><tbody id="clients-table-body"><tr><td colspan="14" class="text-center p-4 text-indigo-200"><i class="fas fa-spinner fa-pulse"></i> <span data-i18n="loading">جاري التحميل...</span></td></tr></tbody></table></div><div id="clients-feedback" class="mt-3 text-sm"></div></div>
     </div>
 </div>
 
 <!-- تذييل -->
 <div class="footer"><p class="text-gray-400 text-xs md:text-sm flex items-center justify-center gap-2 flex-wrap"><i class="fas fa-copyright"></i> 2025 <span class="font-bold text-indigo-300">brandrim</span> <span data-i18n="copyright">جميع الحقوق محفوظة</span> <i class="fas fa-heart text-red-400 animate-pulse"></i></p></div>
 
-<!-- مودال إضافة/تعديل العميل (النمط الأصلي مع تحسينات بسيطة) -->
+<!-- مودال إضافة/تعديل العميل مع الحقول الجديدة -->
 <div id="client-modal" class="client-modal-glass hidden">
     <div class="client-modal-content">
         <div class="modal-header">
@@ -577,7 +354,10 @@
             <div class="modal-field"><i class="fas fa-phone-alt"></i><label data-i18n="phone">📞 رقم الهاتف</label><input type="tel" id="modal-phone" placeholder="+212 6XX XXX XXX"></div>
             <div class="modal-field"><i class="fas fa-concierge-bell"></i><label data-i18n="service_type">🛠️ نوع الخدمة</label><input type="text" id="modal-service" placeholder="مثل: تصميم مواقع، تسويق إلكتروني"></div>
             <div class="modal-field"><i class="fas fa-globe"></i><label data-i18n="country">🌍 الدولة</label><input type="text" id="modal-country" list="countries-list" placeholder="اكتب اسم الدولة"><datalist id="countries-list"></datalist></div>
-            <div class="modal-field"><i class="fas fa-clock"></i><label data-i18n="duration">⏱️ المدة</label><select id="modal-duration" class="appearance-none"><option value="24h">⏱️ 24 ساعة</option><option value="1m">📅 شهر واحد</option><option value="3m">📆 3 أشهر</option><option value="6m">🗓️ 6 أشهر</option><option value="12m">📅 12 شهر</option></select></div>
+            <div class="modal-field"><i class="fas fa-mobile-alt"></i><label data-i18n="app_type">📱 نوع التطبيق</label><input type="text" id="modal-apptype" placeholder="مثل: Android, iOS, Web"></div>
+            <div class="modal-field"><i class="fas fa-network-wired"></i><label>🔑 MAC</label><input type="text" id="modal-mac" placeholder="MAC Address"></div>
+            <div class="modal-field"><i class="fas fa-key"></i><label>🗝️ KEY</label><input type="text" id="modal-key" placeholder="License Key"></div>
+            <div class="modal-field"><i class="fas fa-clock"></i><label data-i18n="duration">⏱️ المدة</label><select id="modal-duration"><option value="24h">⏱️ 24 ساعة</option><option value="1m">📅 شهر واحد</option><option value="3m">📆 3 أشهر</option><option value="6m">🗓️ 6 أشهر</option><option value="12m">📅 12 شهر</option></select></div>
             <div class="modal-field"><i class="fas fa-calendar-alt"></i><label data-i18n="start_date">📅 تاريخ البداية</label><input type="text" id="modal-start-date" placeholder="YYYY-MM-DD"></div>
             <div class="modal-field"><i class="fas fa-calendar-check"></i><label data-i18n="end_date">⏰ تاريخ النهاية</label><input type="text" id="modal-end-date" readonly placeholder="يتحدد تلقائياً"></div>
             <div class="modal-field"><i class="fas fa-money-bill-wave"></i><label data-i18n="price">💰 الثمن (درهم)</label><input type="number" step="0.01" id="modal-price" placeholder="0.00"></div>
@@ -592,25 +372,8 @@
 </div>
 
 <script>
-    // قائمة جميع بلدان العالم
-    const allCountries = [
-        "أفغانستان", "ألبانيا", "الجزائر", "أندورا", "أنغولا", "أنتيغوا وباربودا", "الأرجنتين", "أرمينيا", "أستراليا", "النمسا", "أذربيجان",
-        "باهاماس", "البحرين", "بنغلاديش", "باربادوس", "روسيا البيضاء", "بلجيكا", "بليز", "بنين", "بوتان", "بوليفيا", "البوسنة والهرسك", "بوتسوانا", "البرازيل", "بروناي", "بلغاريا", "بوركينا فاسو", "بوروندي",
-        "كمبوديا", "الكاميرون", "كندا", "الرأس الأخضر", "جمهورية أفريقيا الوسطى", "تشاد", "تشيلي", "الصين", "كولومبيا", "جزر القمر", "الكونغو", "كوستاريكا", "ساحل العاج", "كرواتيا", "كوبا", "قبرص", "جمهورية التشيك",
-        "الدنمارك", "جيبوتي", "دومينيكا", "جمهورية الدومينيكان", "الإكوادور", "مصر", "السلفادور", "غينيا الاستوائية", "إريتريا", "إستونيا", "إسواتيني", "إثيوبيا",
-        "فيجي", "فنلندا", "فرنسا", "الغابون", "غامبيا", "جورجيا", "ألمانيا", "غانا", "اليونان", "غرينادا", "غواتيمالا", "غينيا", "غينيا بيساو", "غيانا",
-        "هايتي", "هندوراس", "المجر", "آيسلندا", "الهند", "إندونيسيا", "إيران", "العراق", "أيرلندا", "إسرائيل", "إيطاليا",
-        "جامايكا", "اليابان", "الأردن", "كازاخستان", "كينيا", "كيريباتي", "الكويت", "قيرغيزستان",
-        "لاوس", "لاتفيا", "لبنان", "ليسوتو", "ليبيريا", "ليبيا", "ليختنشتاين", "ليتوانيا", "لوكسمبورغ",
-        "مدغشقر", "مالاوي", "ماليزيا", "جزر المالديف", "مالي", "مالطا", "جزر مارشال", "موريتانيا", "موريشيوس", "المكسيك", "ميكرونيسيا", "مولدوفا", "موناكو", "منغوليا", "الجبل الأسود", "المغرب", "موزمبيق", "ميانمار",
-        "ناميبيا", "ناورو", "نيبال", "هولندا", "نيوزيلندا", "نيكاراغوا", "النيجر", "نيجيريا", "كوريا الشمالية", "مقدونيا الشمالية", "النرويج",
-        "عمان", "باكستان", "بالاو", "فلسطين", "بنما", "بابوا غينيا الجديدة", "باراغواي", "بيرو", "الفلبين", "بولندا", "البرتغال",
-        "قطر", "رومانيا", "روسيا", "رواندا",
-        "سانت كيتس ونيفيس", "سانت لوسيا", "سانت فينسنت والغرينادين", "ساموا", "سان مارينو", "ساو تومي وبرينسيب", "السعودية", "السنغال", "صربيا", "سيشل", "سيراليون", "سنغافورة", "سلوفاكيا", "سلوفينيا", "جزر سليمان", "الصومال", "جنوب أفريقيا", "كوريا الجنوبية", "جنوب السودان", "إسبانيا", "سريلانكا", "السودان", "سورينام", "السويد", "سويسرا", "سوريا",
-        "تايوان", "طاجيكستان", "تنزانيا", "تايلاند", "تيمور الشرقية", "توغو", "تونغا", "ترينيداد وتوباغو", "تونس", "تركيا", "تركمانستان", "توفالو",
-        "أوغندا", "أوكرانيا", "الإمارات العربية المتحدة", "المملكة المتحدة", "الولايات المتحدة", "الأوروغواي", "أوزبكستان",
-        "فانواتو", "الفاتيكان", "فنزويلا", "فيتنام", "اليمن", "زامبيا", "زيمبابوي"
-    ];
+    // قائمة جميع بلدان العالم (نفس السابق مع اختصار)
+    const allCountries = ["أفغانستان", "ألبانيا", "الجزائر", "أندورا", "أنغولا", "أنتيغوا وباربودا", "الأرجنتين", "أرمينيا", "أستراليا", "النمسا", "أذربيجان", "باهاماس", "البحرين", "بنغلاديش", "باربادوس", "روسيا البيضاء", "بلجيكا", "بليز", "بنين", "بوتان", "بوليفيا", "البوسنة والهرسك", "بوتسوانا", "البرازيل", "بروناي", "بلغاريا", "بوركينا فاسو", "بوروندي", "كمبوديا", "الكاميرون", "كندا", "الرأس الأخضر", "جمهورية أفريقيا الوسطى", "تشاد", "تشيلي", "الصين", "كولومبيا", "جزر القمر", "الكونغو", "كوستاريكا", "ساحل العاج", "كرواتيا", "كوبا", "قبرص", "جمهورية التشيك", "الدنمارك", "جيبوتي", "دومينيكا", "جمهورية الدومينيكان", "الإكوادور", "مصر", "السلفادور", "غينيا الاستوائية", "إريتريا", "إستونيا", "إسواتيني", "إثيوبيا", "فيجي", "فنلندا", "فرنسا", "الغابون", "غامبيا", "جورجيا", "ألمانيا", "غانا", "اليونان", "غرينادا", "غواتيمالا", "غينيا", "غينيا بيساو", "غيانا", "هايتي", "هندوراس", "المجر", "آيسلندا", "الهند", "إندونيسيا", "إيران", "العراق", "أيرلندا", "إسرائيل", "إيطاليا", "جامايكا", "اليابان", "الأردن", "كازاخستان", "كينيا", "كيريباتي", "الكويت", "قيرغيزستان", "لاوس", "لاتفيا", "لبنان", "ليسوتو", "ليبيريا", "ليبيا", "ليختنشتاين", "ليتوانيا", "لوكسمبورغ", "مدغشقر", "مالاوي", "ماليزيا", "جزر المالديف", "مالي", "مالطا", "جزر مارشال", "موريتانيا", "موريشيوس", "المكسيك", "ميكرونيسيا", "مولدوفا", "موناكو", "منغوليا", "الجبل الأسود", "المغرب", "موزمبيق", "ميانمار", "ناميبيا", "ناورو", "نيبال", "هولندا", "نيوزيلندا", "نيكاراغوا", "النيجر", "نيجيريا", "كوريا الشمالية", "مقدونيا الشمالية", "النرويج", "عمان", "باكستان", "بالاو", "فلسطين", "بنما", "بابوا غينيا الجديدة", "باراغواي", "بيرو", "الفلبين", "بولندا", "البرتغال", "قطر", "رومانيا", "روسيا", "رواندا", "سانت كيتس ونيفيس", "سانت لوسيا", "سانت فينسنت والغرينادين", "ساموا", "سان مارينو", "ساو تومي وبرينسيب", "السعودية", "السنغال", "صربيا", "سيشل", "سيراليون", "سنغافورة", "سلوفاكيا", "سلوفينيا", "جزر سليمان", "الصومال", "جنوب أفريقيا", "كوريا الجنوبية", "جنوب السودان", "إسبانيا", "سريلانكا", "السودان", "سورينام", "السويد", "سويسرا", "سوريا", "تايوان", "طاجيكستان", "تنزانيا", "تايلاند", "تيمور الشرقية", "توغو", "تونغا", "ترينيداد وتوباغو", "تونس", "تركيا", "تركمانستان", "توفالو", "أوغندا", "أوكرانيا", "الإمارات العربية المتحدة", "المملكة المتحدة", "الولايات المتحدة", "الأوروغواي", "أوزبكستان", "فانواتو", "الفاتيكان", "فنزويلا", "فيتنام", "اليمن", "زامبيا", "زيمبابوي"];
 
     const paymentMethods = [
         { id: "barid", name: "بريد بنك", icon: "fas fa-envelope", class: "barid" },
@@ -621,7 +384,7 @@
         { id: "paypal", name: "PayPal", icon: "fab fa-paypal", class: "paypal" }
     ];
 
-    const USERS_DB = "brandrimapp_final_v9";
+    const USERS_DB = "brandrimapp_final_v10";
     let currentLang = localStorage.getItem('app_lang') || 'ar';
     let currentCurrency = localStorage.getItem('app_currency') || 'MAD';
     let searchQuery = "";
@@ -656,36 +419,36 @@
     function updateEndDateFromDuration() { const startDate = document.getElementById('modal-start-date').value; const duration = document.getElementById('modal-duration').value; if (startDate && duration) { const endDate = addDurationToDate(startDate, duration); if (endDate) document.getElementById('modal-end-date').value = endDate; } }
     function getDaysRemaining(endDateStr) { if (!endDateStr) return null; const today = new Date(); today.setHours(0,0,0,0); const end = new Date(endDateStr); if (isNaN(end)) return null; return Math.ceil((end - today) / (1000*60*60*24)); }
     function getClientStatus(days) { if (days === null) return { class: '', label: '—', icon: 'fa-question' }; if (days < 0) return { class: 'status-expired', label: t('expired'), icon: 'fa-skull-crosswalk' }; if (days <= 7) return { class: 'status-expiring', label: t('expiring_soon'), icon: 'fa-exclamation-triangle' }; return { class: 'status-active', label: t('active'), icon: 'fa-check-circle' }; }
-    function filterClients(clients, query) { if (!query.trim()) return clients; const q = query.trim().toLowerCase(); return clients.filter(c => (c.name && c.name.toLowerCase().includes(q)) || (c.email && c.email.toLowerCase().includes(q)) || (c.phone && c.phone.toLowerCase().includes(q)) || (c.serviceType && c.serviceType.toLowerCase().includes(q)) || (c.country && c.country.toLowerCase().includes(q)) || (c.notes && c.notes.toLowerCase().includes(q))); }
+    function filterClients(clients, query) { if (!query.trim()) return clients; const q = query.trim().toLowerCase(); return clients.filter(c => (c.name && c.name.toLowerCase().includes(q)) || (c.email && c.email.toLowerCase().includes(q)) || (c.phone && c.phone.toLowerCase().includes(q)) || (c.serviceType && c.serviceType.toLowerCase().includes(q)) || (c.country && c.country.toLowerCase().includes(q)) || (c.appType && c.appType.toLowerCase().includes(q)) || (c.mac && c.mac.toLowerCase().includes(q)) || (c.key && c.key.toLowerCase().includes(q)) || (c.notes && c.notes.toLowerCase().includes(q))); }
 
     function renderNotifications() { const user = getLoggedInUser(); const container = document.getElementById('notifications-area'); if (!user) { container.innerHTML = ''; return; } const clients = user.clients || []; const expiringClients = clients.filter(c => { const days = getDaysRemaining(c.endDate); return days !== null && days <= 7 && days >= 0; }); const dismissed = user.notificationDismissed || {}; const activeNotifications = expiringClients.filter(c => !dismissed[c.id]); if (activeNotifications.length === 0) { container.innerHTML = ''; return; } container.innerHTML = `<div class="mb-2 flex items-center gap-2 text-amber-300"><i class="fas fa-bell animate-pulse"></i><span class="font-bold text-sm">${t('notifications_title')}</span></div>` + activeNotifications.map(client => { const daysLeft = getDaysRemaining(client.endDate); const message = t('expiry_reminder').replace('{name}', client.name).replace('{days}', daysLeft); const phoneRaw = client.phone ? client.phone.replace(/\D/g, '') : ''; const emailRaw = client.email || ''; return `<div class="notification-card p-3 rounded-xl flex flex-wrap items-center justify-between gap-2"><div class="flex-1 text-sm"><i class="fas fa-exclamation-triangle text-amber-400 ml-2"></i><span class="font-semibold text-white">${message}</span></div><div class="flex gap-2 flex-wrap">${phoneRaw ? `<button onclick="copyToClipboard('${phoneRaw.replace(/'/g, "\\'")}', 'phone')" class="copy-phone-btn text-white px-3 py-1 rounded-lg flex items-center gap-1 text-xs"><i class="fas fa-phone-alt"></i> ${t('copy_phone')}</button>` : ''}${emailRaw ? `<button onclick="copyToClipboard('${emailRaw.replace(/'/g, "\\'")}', 'email')" class="copy-email-btn text-white px-3 py-1 rounded-lg flex items-center gap-1 text-xs"><i class="fas fa-envelope"></i> ${t('copy_email')}</button>` : ''}<button onclick="copyFullClientInfo('${client.id}')" class="copy-all-btn text-white px-3 py-1 rounded-lg flex items-center gap-1 text-xs"><i class="fas fa-copy"></i> ${t('copy_all_info')}</button><button onclick="dismissNotification('${client.id}')" class="bg-gray-700 hover:bg-gray-600 text-white px-2 py-1 rounded-lg text-xs"><i class="fas fa-check"></i> ${t('dismiss')}</button></div></div>`; }).join(''); }
-    window.copyFullClientInfo = (clientId) => { const user = getLoggedInUser(); const client = user.clients.find(c => c.id === clientId); if (!client) return; const info = `${t('client_name')}: ${client.name}\n${t('email')}: ${client.email}\n${t('phone')}: ${client.phone}\n${t('service_type')}: ${client.serviceType}\n${t('country')}: ${client.country}\n${t('start_date')}: ${client.startDate}\n${t('end_date')}: ${client.endDate}\n${t('price')}: ${formatPrice(client.price)}\n${t('notes')}: ${client.notes}`; navigator.clipboard.writeText(info).then(() => showToast(t('all_copied'), 'success')).catch(() => showToast(t('copy_error'), 'error')); };
+    window.copyFullClientInfo = (clientId) => { const user = getLoggedInUser(); const client = user.clients.find(c => c.id === clientId); if (!client) return; const info = `${t('client_name')}: ${client.name}\n${t('email')}: ${client.email}\n${t('phone')}: ${client.phone}\n${t('service_type')}: ${client.serviceType}\n${t('country')}: ${client.country}\n${t('app_type')}: ${client.appType || ''}\nMAC: ${client.mac || ''}\nKEY: ${client.key || ''}\n${t('start_date')}: ${client.startDate}\n${t('end_date')}: ${client.endDate}\n${t('price')}: ${formatPrice(client.price)}\n${t('notes')}: ${client.notes}`; navigator.clipboard.writeText(info).then(() => showToast(t('all_copied'), 'success')).catch(() => showToast(t('copy_error'), 'error')); };
     window.copyToClipboard = (text, type) => { navigator.clipboard.writeText(text).then(() => { let msg = type==='phone'?t('phone_copied'):type==='email'?t('email_copied'):t('all_copied'); showToast(msg,'success'); }).catch(()=>showToast(t('copy_error'),'error')); };
     window.dismissNotification = (clientId) => { const user = getLoggedInUser(); if (!user) return; const dismissed = user.notificationDismissed || {}; dismissed[clientId] = true; const users = getUsers(); const idx = users.findIndex(u => u.id === user.id); if (idx !== -1) { users[idx].notificationDismissed = dismissed; saveUsers(users); renderNotifications(); } };
-    function exportToCSV() { const user = getLoggedInUser(); if (!user || user.clients.length === 0) return showToast(t('no_data'), 'error'); const headers = ['#', t('client_name'), t('email'), t('phone'), t('service_type'), t('country'), t('start_date'), t('end_date'), t('remaining'), t('price')]; const rows = user.clients.map((c, idx) => [idx+1, c.name, c.email, c.phone, c.serviceType, c.country, c.startDate, c.endDate, getDaysRemaining(c.endDate) !== null ? getDaysRemaining(c.endDate) + ' ' + t('days_left') : '—', c.price ? c.price + ' MAD' : '—']); const csvContent = [headers, ...rows].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n'); const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.setAttribute('download', `clients_${new Date().toISOString()}.csv`); document.body.appendChild(link); link.click(); document.body.removeChild(link); showToast(t('export_success'), 'success'); }
+    function exportToCSV() { const user = getLoggedInUser(); if (!user || user.clients.length === 0) return showToast(t('no_data'), 'error'); const headers = ['#', t('client_name'), t('email'), t('phone'), t('service_type'), t('country'), t('app_type'), 'MAC', 'KEY', t('start_date'), t('end_date'), t('remaining'), t('price')]; const rows = user.clients.map((c, idx) => [idx+1, c.name, c.email, c.phone, c.serviceType, c.country, c.appType || '', c.mac || '', c.key || '', c.startDate, c.endDate, getDaysRemaining(c.endDate) !== null ? getDaysRemaining(c.endDate) + ' ' + t('days_left') : '—', c.price ? c.price + ' MAD' : '—']); const csvContent = [headers, ...rows].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n'); const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.setAttribute('download', `clients_${new Date().toISOString()}.csv`); document.body.appendChild(link); link.click(); document.body.removeChild(link); showToast(t('export_success'), 'success'); }
     function exportToJSON() { const user = getLoggedInUser(); if (!user) return; const dataStr = JSON.stringify(user.clients, null, 2); const blob = new Blob([dataStr], { type: 'application/json' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.setAttribute('download', `clients_${new Date().toISOString()}.json`); document.body.appendChild(link); link.click(); document.body.removeChild(link); showToast(t('export_success'), 'success'); }
     function importFromJSON(file) { const reader = new FileReader(); reader.onload = (e) => { try { const imported = JSON.parse(e.target.result); if (Array.isArray(imported)) { const user = getLoggedInUser(); if (user) { updateUserClients(user.id, imported); autoUnlockThresholds(user); renderClientsTable(); showToast(t('import_success'), 'success'); } else showToast(t('error'), 'error'); } else showToast(t('invalid_format'), 'error'); } catch(err) { showToast(t('invalid_json'), 'error'); } }; reader.readAsText(file); }
 
-    function renderClientsTable() { const user = getLoggedInUser(); const tbody = document.getElementById('clients-table-body'); if (!user) { tbody.innerHTML = `<tr><td colspan="11" class="text-center p-4 text-indigo-200">${t('loading')}</td>;</tr>`; return; } const allClients = user.clients || []; const filtered = filterClients(allClients, searchQuery); if (filtered.length === 0) { tbody.innerHTML = `<tr><td colspan="11" class="text-center p-6 text-indigo-200 italic">✨ ${t('no_clients')} ✨</td></tr>`; } else { tbody.innerHTML = filtered.map((client, idx) => { const days = getDaysRemaining(client.endDate); const status = getClientStatus(days); const remainingText = days !== null ? (days < 0 ? t('expired') : `${days} ${t('days_left')}`) : '—'; return `<tr class="border-b border-white/10 hover:bg-white/5 transition"><td class="p-1 font-mono font-bold text-indigo-300">${idx+1}</td><td class="p-1 font-medium">${escapeHtml(client.name || '—')}</td><td class="p-1">${escapeHtml(client.email || '—')}</td><td class="p-1">${escapeHtml(client.phone || '—')}</td><td class="p-1">${escapeHtml(client.serviceType || '—')}</td><td class="p-1">${escapeHtml(client.country || '—')}</td><td class="p-1">${formatDate(client.startDate)}</td><td class="p-1">${formatDate(client.endDate)}</td><td class="p-1"><span class="badge ${status.class}"><i class="fas ${status.icon}"></i> ${remainingText}</span></td><td class="p-1">${client.price ? formatPrice(client.price) : '—'}</td><td class="p-1 text-center"><div class="action-buttons"><button onclick="editClient('${client.id}')" class="action-btn text-indigo-300 hover:text-indigo-100" title="${t('edit')}"><i class="fas fa-edit"></i></button><button onclick="shareClient('${client.id}')" class="action-btn text-blue-400 hover:text-blue-300" title="${t('share')}"><i class="fas fa-share-alt"></i></button><button onclick="copyFullClientInfo('${client.id}')" class="action-btn text-green-400 hover:text-green-300" title="${t('copy_all_info')}"><i class="fas fa-copy"></i></button><button onclick="deleteClientHandler('${client.id}')" class="action-btn text-red-400 hover:text-red-300" title="${t('delete')}"><i class="fas fa-trash-alt"></i></button></div></td></tr>`; }).join(''); } updateStats(allClients); renderNotifications(); }
+    function renderClientsTable() { const user = getLoggedInUser(); const tbody = document.getElementById('clients-table-body'); if (!user) { tbody.innerHTML = `<tr><td colspan="14" class="text-center p-4 text-indigo-200">${t('loading')}</td></tr>`; return; } const allClients = user.clients || []; const filtered = filterClients(allClients, searchQuery); if (filtered.length === 0) { tbody.innerHTML = `<tr><td colspan="14" class="text-center p-6 text-indigo-200 italic">✨ ${t('no_clients')} ✨</td></tr>`; } else { tbody.innerHTML = filtered.map((client, idx) => { const days = getDaysRemaining(client.endDate); const status = getClientStatus(days); const remainingText = days !== null ? (days < 0 ? t('expired') : `${days} ${t('days_left')}`) : '—'; return `<tr class="border-b border-white/10 hover:bg-white/5 transition"><td class="p-1 font-mono font-bold text-indigo-300">${idx+1}</td><td class="p-1 font-medium">${escapeHtml(client.name || '—')}</td><td class="p-1">${escapeHtml(client.email || '—')}</td><td class="p-1">${escapeHtml(client.phone || '—')}</td><td class="p-1">${escapeHtml(client.serviceType || '—')}</td><td class="p-1">${escapeHtml(client.country || '—')}</td><td class="p-1">${escapeHtml(client.appType || '—')}</td><td class="p-1 font-mono text-xs">${escapeHtml(client.mac || '—')}</td><td class="p-1 font-mono text-xs">${escapeHtml(client.key || '—')}</td><td class="p-1">${formatDate(client.startDate)}</td><td class="p-1">${formatDate(client.endDate)}</td><td class="p-1"><span class="badge ${status.class}"><i class="fas ${status.icon}"></i> ${remainingText}</span></td><td class="p-1">${client.price ? formatPrice(client.price) : '—'}</td><td class="p-1 text-center"><div class="action-buttons"><button onclick="editClient('${client.id}')" class="action-btn" title="${t('edit')}"><i class="fas fa-edit"></i></button><button onclick="shareClient('${client.id}')" class="action-btn" title="${t('share')}"><i class="fas fa-share-alt"></i></button><button onclick="copyFullClientInfo('${client.id}')" class="action-btn" title="${t('copy_all_info')}"><i class="fas fa-copy"></i></button><button onclick="deleteClientHandler('${client.id}')" class="action-btn" title="${t('delete')}"><i class="fas fa-trash-alt"></i></button></div></td></tr>`; }).join(''); } updateStats(allClients); renderNotifications(); }
     function formatDate(dateStr) { if (!dateStr) return ''; const date = new Date(dateStr); if (!isNaN(date.getTime())) { return date.toLocaleDateString(currentLang === 'ar' ? 'ar-EG' : (currentLang === 'fr' ? 'fr-FR' : 'en-US')); } const parts = dateStr.split('-'); if (parts.length === 3 && parts[0].length === 4) { return `${parts[2]}/${parts[1]}/${parts[0]}`; } return dateStr; }
     function updateStats(allClients) { const totalMAD = allClients.reduce((s,c) => s + (parseFloat(c.price)||0), 0); let total = totalMAD; if (currentCurrency === 'USD') total = totalMAD * 0.1; else if (currentCurrency === 'EUR') total = totalMAD * 0.092; document.getElementById('total-clients-count').innerText = allClients.length; document.getElementById('total-revenue').innerText = total.toFixed(2); document.getElementById('currency-symbol-stat').innerText = currencySymbols[currentCurrency]; const expiring = allClients.filter(c => { const d = getDaysRemaining(c.endDate); return d !== null && d <= 7 && d >= 0; }).length; document.getElementById('expiring-count').innerText = expiring; const uniqueCountries = new Set(allClients.map(c => c.country).filter(c => c && c.trim())); document.getElementById('countries-count').innerText = uniqueCountries.size; }
     function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
-    window.shareClient = (clientId) => { const user = getLoggedInUser(); const client = user.clients.find(c => c.id === clientId); if (!client) return; const priceFormatted = formatPrice(client.price); const info = `${t('client_name')}: ${client.name}\n${t('email')}: ${client.email}\n${t('phone')}: ${client.phone}\n${t('service_type')}: ${client.serviceType}\n${t('country')}: ${client.country}\n${t('start_date')}: ${client.startDate}\n${t('end_date')}: ${client.endDate}\n${t('price')}: ${priceFormatted}\n${t('notes')}: ${client.notes}`; navigator.clipboard.writeText(info).then(() => showToast(t('share_success'), 'success')); };
+    window.shareClient = (clientId) => { const user = getLoggedInUser(); const client = user.clients.find(c => c.id === clientId); if (!client) return; const priceFormatted = formatPrice(client.price); const info = `${t('client_name')}: ${client.name}\n${t('email')}: ${client.email}\n${t('phone')}: ${client.phone}\n${t('service_type')}: ${client.serviceType}\n${t('country')}: ${client.country}\n${t('app_type')}: ${client.appType || ''}\nMAC: ${client.mac || ''}\nKEY: ${client.key || ''}\n${t('start_date')}: ${client.startDate}\n${t('end_date')}: ${client.endDate}\n${t('price')}: ${priceFormatted}\n${t('notes')}: ${client.notes}`; navigator.clipboard.writeText(info).then(() => showToast(t('share_success'), 'success')); };
     function showToast(msg, type) { const fb = document.getElementById('clients-feedback'); fb.innerHTML = `<div class="bg-gray-800/80 p-2 rounded-lg text-center text-sm text-${type==='success'?'emerald-300':'red-300'}">${msg}</div>`; setTimeout(() => fb.innerHTML = '', 2500); }
 
-    window.editClient = (clientId) => { const user = getLoggedInUser(); const client = user.clients.find(c => c.id === clientId); if (client) { document.getElementById('modal-client-id').value = client.id; document.getElementById('modal-client-name').value = client.name || ''; document.getElementById('modal-email').value = client.email || ''; document.getElementById('modal-phone').value = client.phone || ''; document.getElementById('modal-service').value = client.serviceType || ''; document.getElementById('modal-country').value = client.country || ''; document.getElementById('modal-start-date').value = client.startDate || ''; document.getElementById('modal-end-date').value = client.endDate || ''; document.getElementById('modal-price').value = client.price || ''; document.getElementById('modal-notes').value = client.notes || ''; if (client.startDate && client.endDate) { const start = new Date(client.startDate); const end = new Date(client.endDate); const diffMonths = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth()); if (diffMonths === 1) document.getElementById('modal-duration').value = '1m'; else if (diffMonths === 3) document.getElementById('modal-duration').value = '3m'; else if (diffMonths === 6) document.getElementById('modal-duration').value = '6m'; else if (diffMonths === 12) document.getElementById('modal-duration').value = '12m'; else if (Math.ceil((end - start) / (1000*60*60*24)) === 1) document.getElementById('modal-duration').value = '24h'; else document.getElementById('modal-duration').value = '1m'; } document.getElementById('modal-title').innerHTML = `<i class="fas fa-user-edit"></i> <span>${t('edit_client')}</span> ✏️`; document.getElementById('client-modal').classList.remove('hidden'); initDatepickers(); } };
+    window.editClient = (clientId) => { const user = getLoggedInUser(); const client = user.clients.find(c => c.id === clientId); if (client) { document.getElementById('modal-client-id').value = client.id; document.getElementById('modal-client-name').value = client.name || ''; document.getElementById('modal-email').value = client.email || ''; document.getElementById('modal-phone').value = client.phone || ''; document.getElementById('modal-service').value = client.serviceType || ''; document.getElementById('modal-country').value = client.country || ''; document.getElementById('modal-apptype').value = client.appType || ''; document.getElementById('modal-mac').value = client.mac || ''; document.getElementById('modal-key').value = client.key || ''; document.getElementById('modal-start-date').value = client.startDate || ''; document.getElementById('modal-end-date').value = client.endDate || ''; document.getElementById('modal-price').value = client.price || ''; document.getElementById('modal-notes').value = client.notes || ''; if (client.startDate && client.endDate) { const start = new Date(client.startDate); const end = new Date(client.endDate); const diffMonths = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth()); if (diffMonths === 1) document.getElementById('modal-duration').value = '1m'; else if (diffMonths === 3) document.getElementById('modal-duration').value = '3m'; else if (diffMonths === 6) document.getElementById('modal-duration').value = '6m'; else if (diffMonths === 12) document.getElementById('modal-duration').value = '12m'; else if (Math.ceil((end - start) / (1000*60*60*24)) === 1) document.getElementById('modal-duration').value = '24h'; else document.getElementById('modal-duration').value = '1m'; } document.getElementById('modal-title').innerHTML = `<i class="fas fa-user-edit"></i> <span>${t('edit_client')}</span> ✏️`; document.getElementById('client-modal').classList.remove('hidden'); initDatepickers(); } };
     window.deleteClientHandler = (clientId) => { if (confirm(t('confirm_delete'))) { const user = getLoggedInUser(); if (user && deleteClient(user.id, clientId)) { renderClientsTable(); showToast(t('delete_success'), 'success'); } else showToast("Error", 'error'); } };
-    function openAddModal() { const today = new Date().toISOString().split('T')[0]; document.getElementById('modal-client-id').value = ''; document.getElementById('modal-client-name').value = ''; document.getElementById('modal-email').value = ''; document.getElementById('modal-phone').value = ''; document.getElementById('modal-service').value = ''; document.getElementById('modal-country').value = ''; document.getElementById('modal-start-date').value = today; document.getElementById('modal-duration').value = '1m'; document.getElementById('modal-price').value = ''; document.getElementById('modal-notes').value = ''; updateEndDateFromDuration(); document.getElementById('modal-title').innerHTML = `<i class="fas fa-user-plus"></i> <span>${t('add_client')}</span> 🚀`; document.getElementById('client-modal').classList.remove('hidden'); initDatepickers(); }
+    function openAddModal() { const today = new Date().toISOString().split('T')[0]; document.getElementById('modal-client-id').value = ''; document.getElementById('modal-client-name').value = ''; document.getElementById('modal-email').value = ''; document.getElementById('modal-phone').value = ''; document.getElementById('modal-service').value = ''; document.getElementById('modal-country').value = ''; document.getElementById('modal-apptype').value = ''; document.getElementById('modal-mac').value = ''; document.getElementById('modal-key').value = ''; document.getElementById('modal-start-date').value = today; document.getElementById('modal-duration').value = '1m'; document.getElementById('modal-price').value = ''; document.getElementById('modal-notes').value = ''; updateEndDateFromDuration(); document.getElementById('modal-title').innerHTML = `<i class="fas fa-user-plus"></i> <span>${t('add_client')}</span> 🚀`; document.getElementById('client-modal').classList.remove('hidden'); initDatepickers(); }
     function initDatepickers() { flatpickr("#modal-start-date", { dateFormat: "Y-m-d", allowInput: true, locale: currentLang, onChange: () => updateEndDateFromDuration() }); flatpickr("#modal-end-date", { dateFormat: "Y-m-d", allowInput: false }); }
-    function saveClientFromModal() { const id = document.getElementById('modal-client-id').value; const name = document.getElementById('modal-client-name').value.trim(); if (!name) { alert(t('client_name') + " " + (currentLang==='ar'?'مطلوب':'required')); return; } const email = document.getElementById('modal-email').value.trim(); const phone = document.getElementById('modal-phone').value.trim(); const serviceType = document.getElementById('modal-service').value.trim(); const country = document.getElementById('modal-country').value; const startDate = document.getElementById('modal-start-date').value.trim(); const endDate = document.getElementById('modal-end-date').value.trim(); const price = parseFloat(document.getElementById('modal-price').value) || 0; const notes = document.getElementById('modal-notes').value.trim(); if (!startDate || !endDate) { alert(t('date_required')); return; } const user = getLoggedInUser(); if (!user) return; const currentCount = user.clients.length; const newCount = currentCount + (id ? 0 : 1); const needUnlock = (id ? null : canAddClient(user, newCount)); if (needUnlock) { showCodeModal(needUnlock, (success) => { if (success) { if (!user.unlockedThresholds.includes(needUnlock)) { user.unlockedThresholds.push(needUnlock); const users = getUsers(); const idx = users.findIndex(u => u.id === user.id); if (idx !== -1) { users[idx].unlockedThresholds = user.unlockedThresholds; saveUsers(users); } } const clientData = { name, email, phone, serviceType, country, startDate, endDate, price, notes }; if (id) { if (updateClient(user.id, id, clientData)) { renderClientsTable(); showToast(t('save'), 'success'); closeModal(); } else showToast("Error", 'error'); } else { if (addClientToUser(user.id, clientData)) { renderClientsTable(); showToast(t('save'), 'success'); closeModal(); } else showToast("Error", 'error'); } } else { showToast(t('upgrade_cancelled'), 'error'); } }); return; } const clientData = { name, email, phone, serviceType, country, startDate, endDate, price, notes }; if (id) { if (updateClient(user.id, id, clientData)) { renderClientsTable(); showToast(t('save'), 'success'); closeModal(); } else showToast("Error", 'error'); } else { if (addClientToUser(user.id, clientData)) { renderClientsTable(); showToast(t('save'), 'success'); closeModal(); } else showToast("Error", 'error'); } }
+    function saveClientFromModal() { const id = document.getElementById('modal-client-id').value; const name = document.getElementById('modal-client-name').value.trim(); if (!name) { alert(t('client_name') + " " + (currentLang==='ar'?'مطلوب':'required')); return; } const email = document.getElementById('modal-email').value.trim(); const phone = document.getElementById('modal-phone').value.trim(); const serviceType = document.getElementById('modal-service').value.trim(); const country = document.getElementById('modal-country').value; const appType = document.getElementById('modal-apptype').value.trim(); const mac = document.getElementById('modal-mac').value.trim(); const key = document.getElementById('modal-key').value.trim(); const startDate = document.getElementById('modal-start-date').value.trim(); const endDate = document.getElementById('modal-end-date').value.trim(); const price = parseFloat(document.getElementById('modal-price').value) || 0; const notes = document.getElementById('modal-notes').value.trim(); if (!startDate || !endDate) { alert(t('date_required')); return; } const user = getLoggedInUser(); if (!user) return; const currentCount = user.clients.length; const newCount = currentCount + (id ? 0 : 1); const needUnlock = (id ? null : canAddClient(user, newCount)); const clientData = { name, email, phone, serviceType, country, appType, mac, key, startDate, endDate, price, notes }; function doSave() { if (id) { if (updateClient(user.id, id, clientData)) { renderClientsTable(); showToast(t('save'), 'success'); closeModal(); } else showToast("Error", 'error'); } else { if (addClientToUser(user.id, clientData)) { renderClientsTable(); showToast(t('save'), 'success'); closeModal(); } else showToast("Error", 'error'); } } if (needUnlock) { showCodeModal(needUnlock, (success) => { if (success) { if (!user.unlockedThresholds.includes(needUnlock)) { user.unlockedThresholds.push(needUnlock); const users = getUsers(); const idx = users.findIndex(u => u.id === user.id); if (idx !== -1) { users[idx].unlockedThresholds = user.unlockedThresholds; saveUsers(users); } } doSave(); } else { showToast(t('upgrade_cancelled'), 'error'); } }); return; } doSave(); }
     function closeModal() { document.getElementById('client-modal').classList.add('hidden'); }
-    function updateProfilePictureDisplay() { const user = getLoggedInUser(); const avatarImg = document.getElementById('profile-avatar'); if (user && user.profilePicture) { avatarImg.src = user.profilePicture; } else { const name = user ? user.name || user.email.split('@')[0] : 'User'; avatarImg.src = `https://ui-avatars.com/api/?background=4f46e5&color=fff&bold=true&size=48&name=${encodeURIComponent(name)}`; } }
+    function updateProfilePictureDisplay() { const user = getLoggedInUser(); const avatarImg = document.getElementById('profile-avatar'); if (user && user.profilePicture) { avatarImg.src = user.profilePicture; } else { const name = user ? user.name || user.email.split('@')[0] : 'User'; avatarImg.src = `https://ui-avatars.com/api/?background=8b5cf6&color=fff&bold=true&size=48&name=${encodeURIComponent(name)}`; } }
     function handleAvatarUpload(file) { if (!file) return; const reader = new FileReader(); reader.onload = (e) => { const user = getLoggedInUser(); if (user) { updateUserProfilePicture(user.id, e.target.result); updateProfilePictureDisplay(); showToast(t('profile_updated'), 'success'); } }; reader.readAsDataURL(file); }
 
-    // VIP Subscription
+    // VIP Subscription محسنة
     let selectedPlan = null;
-    function openSubscriptionFullscreen() { const existing = document.getElementById('vip-fullscreen-modal'); if (existing) existing.remove(); const modalDiv = document.createElement('div'); modalDiv.id = 'vip-fullscreen-modal'; modalDiv.className = 'subscription-fullscreen'; modalDiv.innerHTML = `<div class="subscription-container"><div class="flex justify-between items-center mb-2"><h2 class="text-xl md:text-2xl font-bold text-white flex items-center gap-2"><i class="fas fa-crown text-amber-400"></i> Abonnement VIP</h2><button id="close-vip-modal" class="text-gray-400 hover:text-white text-2xl">&times;</button></div><div class="plans-row"><div class="plan-card" data-plan="monthly" data-price="1" data-name="Mensuel"><i class="fas fa-calendar-alt"></i><h3>Mensuel</h3><div class="plan-price">$1 <span class="text-xs">/mois</span></div><div class="plan-features">⚡ تجديد تلقائي<br>📊 تقارير متقدمة</div></div><div class="plan-card" data-plan="yearly" data-price="5" data-name="Annuel"><i class="fas fa-calendar-check"></i><h3>Annuel</h3><div class="plan-price">$5 <span class="text-xs">/an</span></div><div class="plan-features">💰 وفر 40%<br>🚀 أولوية الدعم</div></div><div class="plan-card" data-plan="lifetime" data-price="30" data-name="À vie"><i class="fas fa-infinity"></i><h3>À vie</h3><div class="plan-price">$30</div><div class="plan-features">🌟 دعم مدى الحياة<br>🎁 تحديثات مجانية</div></div></div><div class="payment-section"><h3 class="text-base font-bold text-white mb-2">Moyens de paiement</h3><div class="payment-methods-grid" id="payment-methods-grid"></div></div><div class="contact-buttons"><div class="contact-btn" id="whatsapp-submit"><i class="fab fa-whatsapp"></i> مواصلة الدفع عبر واتساب</div></div></div>`; document.body.appendChild(modalDiv); const paymentGrid = modalDiv.querySelector('#payment-methods-grid'); paymentMethods.forEach(method => { const div = document.createElement('div'); div.className = `payment-method-item ${method.class}`; div.innerHTML = `<i class="${method.icon}"></i><span class="method-name">${method.name}</span>`; paymentGrid.appendChild(div); }); const planCards = modalDiv.querySelectorAll('.plan-card'); planCards.forEach(card => { card.onclick = () => { planCards.forEach(c => c.classList.remove('selected')); card.classList.add('selected'); selectedPlan = { plan: card.getAttribute('data-plan'), name: card.getAttribute('data-name'), price: parseInt(card.getAttribute('data-price')) }; }; }); planCards[0].classList.add('selected'); selectedPlan = { plan: planCards[0].getAttribute('data-plan'), name: planCards[0].getAttribute('data-name'), price: parseInt(planCards[0].getAttribute('data-price')) }; modalDiv.querySelector('#whatsapp-submit').onclick = () => sendSubscriptionViaWhatsApp(modalDiv); modalDiv.querySelector('#close-vip-modal').onclick = () => modalDiv.remove(); modalDiv.onclick = (e) => { if (e.target === modalDiv) modalDiv.remove(); }; }
-    function sendSubscriptionViaWhatsApp(modal) { if (!selectedPlan) { alert(t('select_plan')); return; } const user = getLoggedInUser(); const userName = user?.name || (currentLang === 'ar' ? 'العميل' : 'Client'); const userEmail = user?.email || (currentLang === 'ar' ? 'غير محدد' : 'Not provided'); const planName = selectedPlan.name; const price = selectedPlan.price; let message = currentLang === 'ar' ? `مرحباً، أرغب في الاشتراك في الباقة ${planName} ($${price}).\nالاسم: ${userName}\nالبريد الإلكتروني: ${userEmail}\nيرجى التواصل معي لإتمام الدفع.` : (currentLang === 'en' ? `Hello, I would like to subscribe to the ${planName} plan ($${price}).\nName: ${userName}\nEmail: ${userEmail}\nPlease contact me to complete the payment.` : `Bonjour, je souhaite m'abonner au forfait ${planName} ($${price}).\nNom: ${userName}\nEmail: ${userEmail}\nMerci de me contacter pour finaliser le paiement.`); const phoneNumber = '212698490007'; window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank'); modal.remove(); showToast(t('subscription_sent'), 'success'); }
+    function openSubscriptionFullscreen() { const existing = document.getElementById('vip-fullscreen-modal'); if (existing) existing.remove(); const modalDiv = document.createElement('div'); modalDiv.id = 'vip-fullscreen-modal'; modalDiv.className = 'subscription-fullscreen'; modalDiv.innerHTML = `<div class="subscription-container"><div class="flex justify-between items-center mb-3"><h2 class="text-xl md:text-2xl font-bold text-white flex items-center gap-2"><i class="fas fa-crown text-amber-400"></i> باقات الاشتراك VIP</h2><button id="close-vip-modal" class="text-gray-400 hover:text-white text-2xl">&times;</button></div><div class="plans-row"><div class="plan-card" data-plan="monthly" data-price="1" data-name="Mensuel"><i class="fas fa-calendar-alt"></i><h3>باقة شهرية</h3><div class="plan-price">$1 <span class="text-xs">/شهر</span></div><div class="plan-features">✨ دعم MAC/KEY<br>📊 تقارير محدودة<br>🛠️ تحديثات شهرية</div></div><div class="plan-card" data-plan="yearly" data-price="5" data-name="Annuel"><i class="fas fa-calendar-check"></i><h3>باقة سنوية</h3><div class="plan-price">$5 <span class="text-xs">/سنة</span></div><div class="plan-features">🚀 دعم كامل MAC/KEY<br>📈 تقارير متقدمة<br>🎁 تحديثات فورية<br>💬 دعم أولوية</div></div><div class="plan-card" data-plan="lifetime" data-price="30" data-name="À vie"><i class="fas fa-infinity"></i><h3>باقة مدى الحياة</h3><div class="plan-price">$30</div><div class="plan-features">🌟 دعم VIP مدى الحياة<br>🔓 جميع الميزات<br>⚡ تحديثات مجانية للأبد<br>👑 أولوية قصوى</div></div></div><div class="payment-section"><h3 class="text-base font-bold text-white mb-2">طرق الدفع المتاحة</h3><div class="payment-methods-grid" id="payment-methods-grid"></div></div><div class="contact-buttons mt-4"><div class="contact-btn" id="whatsapp-submit"><i class="fab fa-whatsapp"></i> طلب الاشتراك عبر واتساب</div></div></div>`; document.body.appendChild(modalDiv); const paymentGrid = modalDiv.querySelector('#payment-methods-grid'); paymentMethods.forEach(method => { const div = document.createElement('div'); div.className = `payment-method-item ${method.class}`; div.innerHTML = `<i class="${method.icon}"></i><span class="method-name">${method.name}</span>`; paymentGrid.appendChild(div); }); const planCards = modalDiv.querySelectorAll('.plan-card'); planCards.forEach(card => { card.onclick = () => { planCards.forEach(c => c.classList.remove('selected')); card.classList.add('selected'); selectedPlan = { plan: card.getAttribute('data-plan'), name: card.getAttribute('data-name'), price: parseInt(card.getAttribute('data-price')) }; }; }); planCards[0].classList.add('selected'); selectedPlan = { plan: planCards[0].getAttribute('data-plan'), name: planCards[0].getAttribute('data-name'), price: parseInt(planCards[0].getAttribute('data-price')) }; modalDiv.querySelector('#whatsapp-submit').onclick = () => sendSubscriptionViaWhatsApp(modalDiv); modalDiv.querySelector('#close-vip-modal').onclick = () => modalDiv.remove(); modalDiv.onclick = (e) => { if (e.target === modalDiv) modalDiv.remove(); }; }
+    function sendSubscriptionViaWhatsApp(modal) { if (!selectedPlan) { alert(t('select_plan')); return; } const user = getLoggedInUser(); const userName = user?.name || (currentLang === 'ar' ? 'العميل' : 'Client'); const userEmail = user?.email || (currentLang === 'ar' ? 'غير محدد' : 'Not provided'); const planName = selectedPlan.name; const price = selectedPlan.price; let message = currentLang === 'ar' ? `مرحباً، أرغب في الاشتراك في ${planName} ($${price}).\nالاسم: ${userName}\nالبريد: ${userEmail}\nيرجى إرسال تفاصيل الدفع.` : (currentLang === 'en' ? `Hello, I want to subscribe to ${planName} ($${price}).\nName: ${userName}\nEmail: ${userEmail}\nPlease send payment details.` : `Bonjour, je souhaite m'abonner à ${planName} ($${price}).\nNom: ${userName}\nEmail: ${userEmail}\nMerci d'envoyer les détails de paiement.`); const phoneNumber = '212698490007'; window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank'); modal.remove(); showToast(t('subscription_sent'), 'success'); }
 
     function showContactModal() { const existing = document.getElementById('contact-info-modal'); if (existing) existing.remove(); const modal = document.createElement('div'); modal.className = 'contact-modal'; modal.innerHTML = `<div class="contact-modal-content"><h2 class="text-xl font-bold text-white mb-3 flex items-center justify-center gap-2"><i class="fas fa-headset text-amber-400"></i> <span data-i18n="contact_us">تواصل معنا</span></h2><div class="contact-info-item"><i class="fas fa-globe"></i><a href="https://www.brandrim.com" target="_blank">www.brandrim.com</a></div><div class="contact-info-item"><i class="fas fa-envelope"></i><a href="mailto:brandrim.com@gmail.com">brandrim.com@gmail.com</a></div><div class="contact-info-item"><i class="fas fa-phone-alt"></i><a href="tel:0698490007">0698490007</a></div><div class="close-contact-btn mx-auto" id="close-contact-modal">إغلاق</div></div>`; document.body.appendChild(modal); modal.querySelector('#close-contact-modal').onclick = () => modal.remove(); modal.onclick = (e) => { if (e.target === modal) modal.remove(); }; }
 
@@ -693,7 +456,7 @@
 
     function initRatingStars() { const stars = document.querySelectorAll('.rating-star'); const rating = parseInt(localStorage.getItem('user_rating')) || 0; stars.forEach(star => { const value = parseInt(star.getAttribute('data-value')); if (value <= rating) star.classList.add('active'); else star.classList.remove('active'); star.onclick = () => { const newRating = value; localStorage.setItem('user_rating', newRating); stars.forEach(s => { const val = parseInt(s.getAttribute('data-value')); if (val <= newRating) s.classList.add('active'); else s.classList.remove('active'); }); showToast(t('thank_rating'), 'success'); }; }); }
 
-    const translations = { ar: { login:"تسجيل الدخول", register:"إنشاء حساب", welcome_back:"👋 مرحباً بعودتك", email:"البريد الإلكتروني", password:"الرقم السري", login_btn:"دخول", new_account:"🚀 حساب جديد", confirm_password:"تأكيد الرقم السري", signup_btn:"تسجيل", welcome:"مرحباً", logout:"خروج", clients_list:"قائمة العملاء", add_new_client:"إضافة عميل جديد", client_name:"الاسم", phone:"الهاتف", service_type:"الخدمة", country:"الدولة", start_date:"تاريخ البداية", end_date:"تاريخ النهاية", remaining:"المتبقي", price:"الثمن", actions:"إجراءات", edit:"تعديل", delete:"حذف", share:"مشاركة", save:"حفظ", cancel:"إلغاء", add_client:"إضافة عميل", edit_client:"تعديل عميل", total_clients:"إجمالي العملاء", total_revenue:"إجمالي الإيرادات", currency_mad:"درهم", loading:"جاري التحميل...", no_clients:"لا يوجد عملاء", confirm_delete:"هل أنت متأكد من الحذف؟", delete_success:"تم الحذف", days_left:"يوم متبقي", expired:"منتهي", expiring_soon:"ينتهي قريباً", active:"نشط", date_required:"تاريخ البداية والنهاية مطلوبان", countries:"الدول", share_success:"تم نسخ معلومات العميل", no_data:"لا توجد بيانات", notes:"ملاحظات", slogan:"🎯 إدارة العملاء بذكاء واحترافية", copyright:"جميع الحقوق محفوظة", profile_updated:"تم تحديث الصورة بنجاح", notifications_title:"📢 تنبيهات: عملاء تنتهي اشتراكاتهم قريباً", expiry_reminder:"⚠️ {name} - متبقي {days} يوم على انتهاء الاشتراك", dismiss:"تم التذكير", copy_phone:"نسخ الهاتف", copy_email:"نسخ البريد", copy_all_info:"نسخ جميع المعلومات", phone_copied:"تم نسخ رقم الهاتف", email_copied:"تم نسخ البريد الإلكتروني", all_copied:"تم نسخ جميع معلومات العميل", copy_error:"حدث خطأ أثناء النسخ", export_success:"تم التصدير بنجاح", import_success:"تم الاستيراد بنجاح", invalid_format:"صيغة الملف غير صالحة", invalid_json:"ملف JSON غير صالح", error:"حدث خطأ", subscription:"VIP اشتراك", subscription_plans:"اشتراك VIP", choose_plan:"اختر الباقة المناسبة لك", monthly:"شهري", yearly:"سنوي", lifetime:"مدى الحياة", per_month:"/شهر", per_year:"/سنة", payment_methods:"طرق الدفع", select_plan:"الرجاء اختيار الباقة أولاً", subscription_sent:"تم إرسال طلب الاشتراك عبر واتساب ✅", email_sent:"تم فتح تطبيق البريد لإرسال الطلب", whatsapp_payment:"مواصلة الدفع عبر واتساب", email_payment:"مواصلة الدفع عبر البريد", contact_us:"تواصل معنا", upgrade_required:"تحتاج إلى تحديث", enter_code_message:"لإضافة أكثر من {threshold} عميل، أدخل الرمز المطلوب:", submit:"تأكيد", cancel:"إلغاء", wrong_code:"الرمز غير صحيح", upgrade_cancelled:"تم إلغاء التحديث", forgot_password:"نسيت كلمة المرور؟", enter_email_first:"الرجاء إدخال البريد الإلكتروني أولاً", email_not_found:"البريد الإلكتروني غير مسجل", recover_password:"استعادة كلمة المرور", choose_method:"اختر طريقة الاستلام", recovery_subject:"طلب استعادة كلمة المرور", rate_app:"قيم التطبيق:", thank_rating:"شكراً لتقييمك! 🌟" }, en: { login:"Login", register:"Sign Up", welcome_back:"👋 Welcome Back", email:"Email", password:"Password", login_btn:"Login", new_account:"🚀 Create Account", confirm_password:"Confirm Password", signup_btn:"Sign Up", welcome:"Welcome", logout:"Logout", clients_list:"Clients", add_new_client:"Add New Client", client_name:"Name", phone:"Phone", service_type:"Service", country:"Country", start_date:"Start Date", end_date:"End Date", remaining:"Remaining", price:"Price", actions:"Actions", edit:"Edit", delete:"Delete", share:"Share", save:"Save", cancel:"Cancel", add_client:"Add Client", edit_client:"Edit Client", total_clients:"Total Clients", total_revenue:"Revenue", currency_mad:"MAD", loading:"Loading...", no_clients:"No clients", confirm_delete:"Are you sure?", delete_success:"Deleted", days_left:"days left", expired:"Expired", expiring_soon:"Expiring soon", active:"Active", date_required:"Start and End dates required", countries:"Countries", share_success:"Client info copied", no_data:"No data", notes:"Notes", slogan:"🎯 Smart & Professional Client Management", copyright:"All rights reserved", profile_updated:"Profile picture updated", notifications_title:"📢 Alerts: Subscriptions ending soon", expiry_reminder:"⚠️ {name} - {days} days left until subscription ends", dismiss:"Dismiss", copy_phone:"Copy phone", copy_email:"Copy email", copy_all_info:"Copy all info", phone_copied:"Phone copied", email_copied:"Email copied", all_copied:"All client info copied", copy_error:"Copy error", export_success:"Export successful", import_success:"Import successful", invalid_format:"Invalid file format", invalid_json:"Invalid JSON file", error:"Error", subscription:"VIP Subscription", subscription_plans:"VIP Subscription", choose_plan:"Choose the plan that suits you", monthly:"Monthly", yearly:"Yearly", lifetime:"Lifetime", per_month:"/month", per_year:"/year", payment_methods:"Payment Methods", select_plan:"Please select a plan first", subscription_sent:"Subscription request sent via WhatsApp ✅", email_sent:"Email app opened to send request", whatsapp_payment:"Continue payment via WhatsApp", email_payment:"Continue payment via Email", contact_us:"Contact Us", upgrade_required:"Upgrade Required", enter_code_message:"To add more than {threshold} clients, enter the required code:", submit:"Submit", cancel:"Cancel", wrong_code:"Wrong code", upgrade_cancelled:"Upgrade cancelled", forgot_password:"Forgot password?", enter_email_first:"Please enter your email first", email_not_found:"Email not registered", recover_password:"Recover Password", choose_method:"Choose delivery method", recovery_subject:"Password recovery request", rate_app:"Rate App:", thank_rating:"Thank you for rating! 🌟" }, fr: { login:"Connexion", register:"S'inscrire", welcome_back:"👋 Bon retour", email:"E-mail", password:"Mot de passe", login_btn:"Se connecter", new_account:"🚀 Nouveau compte", confirm_password:"Confirmer le mot de passe", signup_btn:"S'inscrire", welcome:"Bienvenue", logout:"Déconnexion", clients_list:"Clients", add_new_client:"Ajouter nouveau client", client_name:"Nom", phone:"Téléphone", service_type:"Service", country:"Pays", start_date:"Date début", end_date:"Date fin", remaining:"Restant", price:"Prix", actions:"Actions", edit:"Modifier", delete:"Supprimer", share:"Partager", save:"Enregistrer", cancel:"Annuler", add_client:"Ajouter client", edit_client:"Modifier client", total_clients:"Total clients", total_revenue:"Chiffre d'affaires", currency_mad:"MAD", loading:"Chargement...", no_clients:"Aucun client", confirm_delete:"Supprimer ?", delete_success:"Supprimé", days_left:"jours restants", expired:"Expiré", expiring_soon:"Expire bientôt", active:"Actif", date_required:"Dates début et fin requises", countries:"Pays", share_success:"Infos client copiées", no_data:"Aucune donnée", notes:"Notes", slogan:"🎯 Gestion clientèle intelligente et professionnelle", copyright:"Tous droits réservés", profile_updated:"Photo de profil mise à jour", notifications_title:"📢 Alertes: abonnements bientôt expirés", expiry_reminder:"⚠️ {name} - {days} jours restants avant expiration", dismiss:"Ignorer", copy_phone:"Copier le téléphone", copy_email:"Copier l'email", copy_all_info:"Copier toutes les infos", phone_copied:"Téléphone copié", email_copied:"Email copié", all_copied:"Toutes les infos client copiées", copy_error:"Erreur de copie", export_success:"Export réussi", import_success:"Import réussi", invalid_format:"Format de fichier invalide", invalid_json:"Fichier JSON invalide", error:"Erreur", subscription:"Abonnement VIP", subscription_plans:"Abonnement VIP", choose_plan:"Choisissez le forfait qui vous convient", monthly:"Mensuel", yearly:"Annuel", lifetime:"À vie", per_month:"/mois", per_year:"/an", payment_methods:"Moyens de paiement", select_plan:"Veuillez d'abord sélectionner un forfait", subscription_sent:"Demande d'abonnement envoyée via WhatsApp ✅", email_sent:"Application de messagerie ouverte pour envoyer la demande", whatsapp_payment:"Continuer le paiement via WhatsApp", email_payment:"Continuer le paiement par e-mail", contact_us:"Contactez-nous", upgrade_required:"Mise à niveau requise", enter_code_message:"Pour ajouter plus de {threshold} clients, entrez le code requis :", submit:"Soumettre", cancel:"Annuler", wrong_code:"Code incorrect", upgrade_cancelled:"Mise à niveau annulée", forgot_password:"Mot de passe oublié ?", enter_email_first:"Veuillez d'abord saisir votre e-mail", email_not_found:"E-mail non enregistré", recover_password:"Récupérer le mot de passe", choose_method:"Choisissez la méthode de livraison", recovery_subject:"Demande de récupération de mot de passe", rate_app:"Évaluer l'application :", thank_rating:"Merci pour votre évaluation ! 🌟" } };
+    const translations = { ar: { login:"تسجيل الدخول", register:"إنشاء حساب", email:"البريد الإلكتروني", password:"الرقم السري", login_btn:"دخول", confirm_password:"تأكيد الرقم السري", signup_btn:"تسجيل", welcome:"مرحباً", logout:"خروج", clients_list:"قائمة العملاء", add_new_client:"إضافة عميل جديد", client_name:"الاسم", phone:"الهاتف", service_type:"الخدمة", country:"الدولة", app_type:"نوع التطبيق", start_date:"تاريخ البداية", end_date:"تاريخ النهاية", remaining:"المتبقي", price:"الثمن", actions:"إجراءات", edit:"تعديل", delete:"حذف", share:"مشاركة", save:"حفظ", cancel:"إلغاء", add_client:"إضافة عميل", edit_client:"تعديل عميل", total_clients:"إجمالي العملاء", total_revenue:"إجمالي الإيرادات", loading:"جاري التحميل...", no_clients:"لا يوجد عملاء", confirm_delete:"هل أنت متأكد من الحذف؟", delete_success:"تم الحذف", days_left:"يوم متبقي", expired:"منتهي", expiring_soon:"ينتهي قريباً", active:"نشط", date_required:"تاريخ البداية والنهاية مطلوبان", countries:"الدول", share_success:"تم نسخ معلومات العميل", no_data:"لا توجد بيانات", notes:"ملاحظات", slogan:"🎯 إدارة العملاء بذكاء واحترافية", copyright:"جميع الحقوق محفوظة", profile_updated:"تم تحديث الصورة بنجاح", notifications_title:"📢 تنبيهات: عملاء تنتهي اشتراكاتهم قريباً", expiry_reminder:"⚠️ {name} - متبقي {days} يوم على انتهاء الاشتراك", dismiss:"تم التذكير", copy_phone:"نسخ الهاتف", copy_email:"نسخ البريد", copy_all_info:"نسخ جميع المعلومات", phone_copied:"تم نسخ رقم الهاتف", email_copied:"تم نسخ البريد الإلكتروني", all_copied:"تم نسخ جميع معلومات العميل", copy_error:"حدث خطأ أثناء النسخ", export_success:"تم التصدير بنجاح", import_success:"تم الاستيراد بنجاح", invalid_format:"صيغة الملف غير صالحة", invalid_json:"ملف JSON غير صالح", error:"حدث خطأ", subscription:"VIP اشتراك", select_plan:"الرجاء اختيار الباقة أولاً", subscription_sent:"تم إرسال طلب الاشتراك عبر واتساب ✅", contact_us:"تواصل معنا", upgrade_required:"تحتاج إلى تحديث", enter_code_message:"لإضافة أكثر من {threshold} عميل، أدخل الرمز المطلوب:", submit:"تأكيد", wrong_code:"الرمز غير صحيح", upgrade_cancelled:"تم إلغاء التحديث", forgot_password:"نسيت كلمة المرور؟", enter_email_first:"الرجاء إدخال البريد الإلكتروني أولاً", email_not_found:"البريد الإلكتروني غير مسجل", recover_password:"استعادة كلمة المرور", choose_method:"اختر طريقة الاستلام", recovery_subject:"طلب استعادة كلمة المرور", rate_app:"قيم التطبيق:", thank_rating:"شكراً لتقييمك! 🌟" }, en: { login:"Login", register:"Sign Up", email:"Email", password:"Password", login_btn:"Login", confirm_password:"Confirm Password", signup_btn:"Sign Up", welcome:"Welcome", logout:"Logout", clients_list:"Clients", add_new_client:"Add New Client", client_name:"Name", phone:"Phone", service_type:"Service", country:"Country", app_type:"App Type", start_date:"Start Date", end_date:"End Date", remaining:"Remaining", price:"Price", actions:"Actions", edit:"Edit", delete:"Delete", share:"Share", save:"Save", cancel:"Cancel", add_client:"Add Client", edit_client:"Edit Client", total_clients:"Total Clients", total_revenue:"Revenue", loading:"Loading...", no_clients:"No clients", confirm_delete:"Are you sure?", delete_success:"Deleted", days_left:"days left", expired:"Expired", expiring_soon:"Expiring soon", active:"Active", date_required:"Start and End dates required", countries:"Countries", share_success:"Client info copied", no_data:"No data", notes:"Notes", slogan:"🎯 Smart & Professional Client Management", copyright:"All rights reserved", profile_updated:"Profile picture updated", notifications_title:"📢 Alerts: Subscriptions ending soon", expiry_reminder:"⚠️ {name} - {days} days left", dismiss:"Dismiss", copy_phone:"Copy phone", copy_email:"Copy email", copy_all_info:"Copy all info", phone_copied:"Phone copied", email_copied:"Email copied", all_copied:"All client info copied", copy_error:"Copy error", export_success:"Export successful", import_success:"Import successful", invalid_format:"Invalid file format", invalid_json:"Invalid JSON file", error:"Error", subscription:"VIP Subscription", select_plan:"Please select a plan first", subscription_sent:"Subscription request sent via WhatsApp ✅", contact_us:"Contact Us", upgrade_required:"Upgrade Required", enter_code_message:"To add more than {threshold} clients, enter the code:", submit:"Submit", wrong_code:"Wrong code", upgrade_cancelled:"Upgrade cancelled", forgot_password:"Forgot password?", enter_email_first:"Enter email first", email_not_found:"Email not registered", recover_password:"Recover Password", choose_method:"Choose delivery method", recovery_subject:"Password recovery", rate_app:"Rate App:", thank_rating:"Thank you for rating! 🌟" }, fr: { login:"Connexion", register:"S'inscrire", email:"E-mail", password:"Mot de passe", login_btn:"Se connecter", confirm_password:"Confirmer", signup_btn:"S'inscrire", welcome:"Bienvenue", logout:"Déconnexion", clients_list:"Clients", add_new_client:"Ajouter client", client_name:"Nom", phone:"Téléphone", service_type:"Service", country:"Pays", app_type:"Type d'app", start_date:"Début", end_date:"Fin", remaining:"Restant", price:"Prix", actions:"Actions", edit:"Modifier", delete:"Supprimer", share:"Partager", save:"Enregistrer", cancel:"Annuler", add_client:"Ajouter client", edit_client:"Modifier client", total_clients:"Total clients", total_revenue:"Chiffre d'affaires", loading:"Chargement...", no_clients:"Aucun client", confirm_delete:"Supprimer ?", delete_success:"Supprimé", days_left:"jours restants", expired:"Expiré", expiring_soon:"Expire bientôt", active:"Actif", date_required:"Dates début et fin requises", countries:"Pays", share_success:"Infos copiées", no_data:"Aucune donnée", notes:"Notes", slogan:"🎯 Gestion clientèle intelligente", copyright:"Tous droits réservés", profile_updated:"Photo mise à jour", notifications_title:"📢 Alertes: abonnements bientôt expirés", expiry_reminder:"⚠️ {name} - {days} jours restants", dismiss:"Ignorer", copy_phone:"Copier téléphone", copy_email:"Copier email", copy_all_info:"Copier toutes les infos", phone_copied:"Téléphone copié", email_copied:"Email copié", all_copied:"Infos client copiées", copy_error:"Erreur copie", export_success:"Export réussi", import_success:"Import réussi", invalid_format:"Format invalide", invalid_json:"JSON invalide", error:"Erreur", subscription:"Abonnement VIP", select_plan:"Choisissez un forfait", subscription_sent:"Demande envoyée via WhatsApp ✅", contact_us:"Contactez-nous", upgrade_required:"Mise à niveau", enter_code_message:"Pour ajouter plus de {threshold} clients, entrez le code:", submit:"Soumettre", wrong_code:"Code incorrect", upgrade_cancelled:"Annulé", forgot_password:"Mot de passe oublié ?", enter_email_first:"Entrez d'abord l'email", email_not_found:"Email non enregistré", recover_password:"Récupérer mot de passe", choose_method:"Choisissez la méthode", recovery_subject:"Récupération mot de passe", rate_app:"Évaluer l'application :", thank_rating:"Merci pour votre évaluation ! 🌟" } };
     function t(key) { return translations[currentLang][key] || key; }
     function applyLanguage() {
         document.body.classList.remove('lang-en', 'lang-fr');
@@ -703,31 +466,15 @@
         document.documentElement.lang = currentLang;
         document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if (key) el.innerText = t(key); });
         const modalOpen = document.getElementById('client-modal').classList.contains('hidden') === false;
-        if (modalOpen) {
-            const modalTitle = document.getElementById('modal-title');
-            if (modalTitle) {
-                const isEdit = document.getElementById('modal-client-id').value !== '';
-                modalTitle.innerHTML = `<i class="fas ${isEdit ? 'fa-user-edit' : 'fa-user-plus'} text-indigo-400"></i> <span>${isEdit ? t('edit_client') : t('add_client')}</span> ${isEdit ? '✏️' : '🚀'}`;
-            }
-        }
+        if (modalOpen) { const modalTitle = document.getElementById('modal-title'); if (modalTitle) { const isEdit = document.getElementById('modal-client-id').value !== ''; modalTitle.innerHTML = `<i class="fas ${isEdit ? 'fa-user-edit' : 'fa-user-plus'} text-indigo-400"></i> <span>${isEdit ? t('edit_client') : t('add_client')}</span> ${isEdit ? '✏️' : '🚀'}`; } }
         renderClientsTable();
         localStorage.setItem('app_lang', currentLang);
         const flagMap = { ar: '🇲🇦', en: '🇬🇧', fr: '🇫🇷' };
         const nameMap = { ar: 'العربية', en: 'English', fr: 'Français' };
         document.getElementById('current-flag').innerText = flagMap[currentLang];
         document.getElementById('current-lang-name').innerText = nameMap[currentLang];
-        
-        const countrySelect = document.getElementById('modal-country');
-        if (countrySelect && countrySelect.tagName === 'INPUT') {
-            // هو input بالفعل، نضيف datalist
-            let datalist = document.getElementById('countries-list');
-            if (!datalist) {
-                datalist = document.createElement('datalist');
-                datalist.id = 'countries-list';
-                countrySelect.parentNode.appendChild(datalist);
-            }
-            datalist.innerHTML = allCountries.map(c => `<option value="${c}">`).join('');
-        }
+        const countryInput = document.getElementById('modal-country');
+        if (countryInput) { let datalist = document.getElementById('countries-list'); if (!datalist) { datalist = document.createElement('datalist'); datalist.id = 'countries-list'; countryInput.parentNode.appendChild(datalist); } datalist.innerHTML = allCountries.map(c => `<option value="${c}">`).join(''); }
         if (!document.getElementById('client-modal').classList.contains('hidden')) initDatepickers();
     }
     function setCurrency(currency) { currentCurrency = currency; localStorage.setItem('app_currency', currency); document.querySelectorAll('.currency-btn').forEach(btn => btn.classList.remove('active', 'bg-indigo-500/30')); document.querySelector(`.currency-btn[data-currency="${currency}"]`).classList.add('active', 'bg-indigo-500/30'); renderClientsTable(); }
